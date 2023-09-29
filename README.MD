@@ -16,7 +16,7 @@
 
 ### Install dependencies
 
-* 📎 Install dependencies with command `pip install -r requirements.txt`
+📎 Install dependencies with command `pip install -r requirements.txt`
 
 ### Accept migrations
 
