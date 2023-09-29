@@ -1,5 +1,6 @@
 .idea
 venv
 
-env
-env.prod
+db.sqlite3
+
+.env
