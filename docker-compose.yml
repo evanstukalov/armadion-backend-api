@@ -1,0 +1,26 @@
+version: '3.3'
+
+services:
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - log:/armadion/log
+    ports:
+      - 8000:8000
+    env_file:
+      - .env.dev
+    depends_on:
+      - db
+  db:
+    image: postgres:15.4-bullseye
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=myuser
+      - POSTGRES_PASSWORD=mypassword
+      - POSTGRES_DB=mydatabase
+
+volumes:
+  log:
+  postgres_data:
