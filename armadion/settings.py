@@ -24,8 +24,8 @@ env = environ.Env(
     DEBUG=(bool, False)
 )
 
-# Take environment variables from ..env file
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+# Take environment variables from ..env.dev file
+environ.Env.read_env(os.path.join(BASE_DIR, '.env.dev'))
 
 
 # Quick-start development settings - unsuitable for production
@@ -37,7 +37,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG', default=False)
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = env('DJANGO_ALLOWED_HOSTS').split(" ")
 
 # Application definition
 
@@ -84,25 +84,17 @@ WSGI_APPLICATION = 'armadion.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-if DEBUG:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': env("DB_NAME"),
-            'USER': env("DB_USER"),
-            'PASSWORD': env("DB_PASSWORD"),
-            'HOST': env("DB_HOST"),
-            'PORT': env("DB_PORT"),
-        }
-    }
 
+DATABASES = {
+    'default': {
+        'ENGINE': env.str("DB_ENGINE", default="django.db.backends.sqlite3"),
+        'NAME': env.str("DB_NAME", default=BASE_DIR / "db.sqlite3"),
+        'USER': env.str("DB_USER", default="user"),
+        'PASSWORD': env.str("DB_PASSWORD", default="password"),
+        'HOST': env.str("DB_HOST", default="localhost"),
+        'PORT': env("DB_PORT", default=5432),
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
