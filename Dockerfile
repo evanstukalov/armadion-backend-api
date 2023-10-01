@@ -1,8 +1,9 @@
-FROM python:3.11
+FROM python:3.11.4-slim-buster
 
 # set work directory
 
 RUN mkdir /armadion
+RUN mkdir /armadion/staticfiles
 
 WORKDIR /armadion
 
