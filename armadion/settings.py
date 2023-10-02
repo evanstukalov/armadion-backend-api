@@ -27,7 +27,6 @@ env = environ.Env(
 # Take environment variables from .env.dev file
 environ.Env.read_env(os.path.join(BASE_DIR, '.env.dev'))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -49,7 +48,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'rest_framework',
     'corsheaders',
+    'contactform',
+    'phonenumber_field',
 ]
 
 MIDDLEWARE = [
@@ -84,7 +86,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'armadion.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -118,7 +119,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -130,17 +130,21 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT =  os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 CORS_ORIGIN_WHITELIST = [
     "http://0.0.0.0:1337",
-    ]
+    "http://localhost:1337",
+]
 
+CSRF_TRUSTED_ORIGINS = [
+    "http://0.0.0.0:1337",
+    "http://localhost:1337"
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
