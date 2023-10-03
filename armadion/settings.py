@@ -153,7 +153,7 @@ CSRF_TRUSTED_ORIGINS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# for logger
+# logger config
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -186,3 +186,7 @@ LOGGING = {
         }
     }
 }
+
+# celery broker and result
+CELERY_BROKER_URL = "redis://redis:6379/0"
+CELERY_RESULT_BACKEND = "redis://redis:6379/0"

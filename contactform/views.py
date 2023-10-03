@@ -8,6 +8,9 @@ from contactform.services import add_new_row
 
 # import the logging library
 import logging
+
+from contactform.tasks import task_execute
+
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
 
@@ -34,8 +37,8 @@ def contact_form(request: Request) -> Response:
             serializer.save()
 
             try:
-                # Add new row with the values from the serializer data
-                add_new_row(list(serializer.data.values()))
+                task_execute(serializer.data)
+                
             except Exception as e:
                 # Handle any exceptions that occur during the execution of add_new_row()
                 return Response(str(e), status=status.HTTP_500_INTERNAL_SERVER_ERROR)
