@@ -20,12 +20,12 @@ COPY ./requirements.txt .
 RUN pip install -r requirements.txt
 
 # copy entrypoint.sh
-COPY ./entrypoint.sh .
-RUN sed -i 's/\r$//g' /armadion/entrypoint.sh
-RUN chmod +x /armadion/entrypoint.sh
+COPY scripts/entrypoint.sh scripts/entrypoint.sh
+RUN sed -i 's/\r$//g' /armadion/scripts/entrypoint.sh
+RUN chmod +x /armadion/scripts/entrypoint.sh
 
 # copy project
 COPY . .
 
 # run entrypoint.sh
-ENTRYPOINT ["/armadion/entrypoint.sh"]
+ENTRYPOINT ["/armadion/scripts/entrypoint.sh"]
