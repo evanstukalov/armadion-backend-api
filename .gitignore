@@ -7,3 +7,7 @@ todo
 .env.dev
 .env.prod
 .env.prod.db
+credentials.json
+
+Dockerfile.prod
+entrypoint.prod.sh
