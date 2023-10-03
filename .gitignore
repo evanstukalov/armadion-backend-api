@@ -10,7 +10,8 @@ todo
 credentials.json
 
 Dockerfile.prod
-entrypoint.prod.sh
+scripts/entrypoint.prod.sh
 
+.pytest_cache
 contactform/tests
 pytest.ini
