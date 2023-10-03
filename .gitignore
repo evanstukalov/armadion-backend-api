@@ -11,3 +11,6 @@ credentials.json
 
 Dockerfile.prod
 entrypoint.prod.sh
+
+contactform/tests
+pytest.ini
