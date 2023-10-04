@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.request import Request
 from contactform.serializers import ContactFormSerializer
 from rest_framework import status
+from drf_yasg.utils import swagger_auto_schema
 
 from contactform.services import add_new_row
 
@@ -15,7 +16,9 @@ from contactform.tasks import task_execute
 logger = logging.getLogger(__name__)
 
 
+
 @api_view(['POST'])
+@swagger_auto_schema()
 def contact_form(request: Request) -> Response:
     """
     Handle POST request to submit a contact form.
