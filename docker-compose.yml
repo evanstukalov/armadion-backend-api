@@ -17,10 +17,6 @@ services:
     restart: always
     build: .
     command: celery -A armadion worker -l info
-    environment:
-      - POSTGRES_USER=myuser
-      - POSTGRES_PASSWORD=mypassword
-      - POSTGRES_DB=mydatabase
     depends_on:
       - db
       - redis
