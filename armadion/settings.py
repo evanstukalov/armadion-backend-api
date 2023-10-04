@@ -41,6 +41,7 @@ ALLOWED_HOSTS = env('DJANGO_ALLOWED_HOSTS').split(" ")
 # Application definition
 
 INSTALLED_APPS = [
+    # django apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -48,10 +49,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'rest_framework',
-    'corsheaders',
+    # My apps
     'contactform',
-    'phonenumber_field',
+    # Rest framework
+    'rest_framework',
+
+    # Plugins
+    'phonenumber_field',  # for phone number
+    'drf_yasg',  # for swagger documentation
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -147,6 +153,14 @@ CSRF_TRUSTED_ORIGINS = [
     "http://0.0.0.0:1337",
     "http://localhost:1337"
 ]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://0.0.0.0:1337",
+    "http://localhost:1337",
+]
+
+CORS_EXPOSE_HEADERS = ['Content-Type', 'X-CSRFToken']
+CORS_ALLOW_CREDENTIALS = True
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
