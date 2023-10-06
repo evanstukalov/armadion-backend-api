@@ -9,9 +9,6 @@ todo
 .env.prod.db
 credentials.json
 
-Dockerfile.prod
-scripts/entrypoint.prod.sh
-
 .pytest_cache
 contactform/tests
 pytest.ini
