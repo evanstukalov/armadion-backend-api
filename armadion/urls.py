@@ -35,7 +35,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # API
-    path('contact_form/', include('contactform.urls')),
+    path('contact-form/', include('contactform.urls')),
 
     # Documentation
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
