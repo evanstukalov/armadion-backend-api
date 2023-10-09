@@ -1,8 +1,8 @@
 from celery import shared_task
 
-from contactform.utils import add_new_row
-
 import logging
+
+from contactform.utils import GoogleSheet
 
 logger = logging.getLogger(__name__)
 
@@ -16,8 +16,9 @@ def task_execute(data):
         data (dict): A dictionary containing the values for the new row.
     """
     try:
+        sheet = GoogleSheet('GOOGLE_SHEET_NAME')
         # Add new row with the values from the serializer data
-        add_new_row(list(data.values()))
+        sheet.add_new_row(list(data.values()))
 
     except Exception as e:
         # Or log the error

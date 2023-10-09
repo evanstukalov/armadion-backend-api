@@ -5,7 +5,6 @@ from contactform.serializers import ContactFormSerializer
 from rest_framework import status
 from drf_yasg.utils import swagger_auto_schema
 
-from contactform.utils import add_new_row
 
 # import the logging library
 import logging

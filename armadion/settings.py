@@ -24,8 +24,8 @@ env = environ.Env(
     DEBUG=(bool, False)
 )
 
-# Take environment variables from .env.dev file
-environ.Env.read_env(os.path.join(BASE_DIR, '.env.dev'))
+# Take environment variables from .env file
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/

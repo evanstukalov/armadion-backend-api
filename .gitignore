@@ -4,7 +4,7 @@ venv
 db.sqlite3
 todo
 
-.env.dev
+.env
 .env.prod
 .env.prod.db
 credentials.json
