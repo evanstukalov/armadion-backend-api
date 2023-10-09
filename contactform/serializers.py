@@ -8,7 +8,7 @@ from armadion import settings
 # TODO test
 class ContactFormSerializer(serializers.Serializer):
     current_date = serializers.DateField(default=date.today)
-    current_time = serializers.DateTimeField(default=datetime.now, format=settings.DATETIME_FORMAT[1])
+    current_time = serializers.TimeField(default=datetime.now, format=settings.DATETIME_FORMAT[1])
 
     user_name = serializers.CharField(max_length=60)
     phone_number = PhoneNumberField(region="RU")
