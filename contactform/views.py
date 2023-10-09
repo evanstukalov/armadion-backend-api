@@ -5,7 +5,7 @@ from contactform.serializers import ContactFormSerializer
 from rest_framework import status
 from drf_yasg.utils import swagger_auto_schema
 
-from contactform.services import add_new_row
+from contactform.utils import add_new_row
 
 # import the logging library
 import logging
@@ -48,6 +48,7 @@ def contact_form(request: Request) -> Response:
         return Response(str(e), status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     try:
+
         task_execute(serializer.data)
         
     except Exception as e:

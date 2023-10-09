@@ -1,4 +1,3 @@
-from typing import List
 from gspread.spreadsheet import Worksheet
 import itertools
 import os
