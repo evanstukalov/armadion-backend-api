@@ -1,6 +1,6 @@
 from celery import shared_task
 
-from contactform.services import add_new_row
+from contactform.utils import add_new_row
 
 import logging
 
