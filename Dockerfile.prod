@@ -27,5 +27,7 @@ RUN chmod +x /armadion/scripts/entrypoint.prod.sh
 # copy project
 COPY . .
 
+COPY .env.prod .env
+
 # run entrypoint.sh
 ENTRYPOINT ["/armadion/scripts/entrypoint.prod.sh"]
