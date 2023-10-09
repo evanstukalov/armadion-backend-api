@@ -11,4 +11,4 @@ credentials.json
 
 .pytest_cache
 contactform/tests
-pytest.ini
+setup.cfg
