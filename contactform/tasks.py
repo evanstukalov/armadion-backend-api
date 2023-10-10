@@ -1,3 +1,4 @@
+
 from celery import shared_task
 
 import logging
@@ -16,7 +17,8 @@ def task_execute(data):
         data (dict): A dictionary containing the values for the new row.
     """
     try:
-        sheet = GoogleSheet('GOOGLE_SHEET_NAME')
+        # Create a new instance of the GoogleSheet class
+        sheet = GoogleSheet("GOOGLE_SHEET_NAME")
         # Add new row with the values from the serializer data
         sheet.add_new_row(list(data.values()))
 
