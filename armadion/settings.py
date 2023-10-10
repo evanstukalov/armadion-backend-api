@@ -51,13 +51,14 @@ INSTALLED_APPS = [
 
     # My apps
     'contactform',
+    'doors',
     # Rest framework
     'rest_framework',
-
     # Plugins
     'phonenumber_field',  # for phone number
     'drf_yasg',  # for swagger documentation
     'corsheaders',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -125,6 +126,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -143,6 +148,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+MEDIA_URL = 'http://0.0.0.0:1337/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles/')
 
 CORS_ORIGIN_WHITELIST = [
     "http://0.0.0.0:1337",
