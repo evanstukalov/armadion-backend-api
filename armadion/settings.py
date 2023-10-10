@@ -173,7 +173,7 @@ LOGGING = {
     'disable_existing_loggers': False,
     'formatters': {
         'console': {
-            'format': '{name} {levelname} {asctime} {message}',
+            'format': '[{name}] [{levelname}] [{asctime}] [{message}]',
             'style': '{',
         },
         'file': {

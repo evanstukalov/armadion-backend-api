@@ -47,7 +47,6 @@ def contact_form(request: Request) -> Response:
         return Response(str(e), status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     try:
-
         task_execute(serializer.data)
         
     except Exception as e:
