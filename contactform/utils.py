@@ -1,19 +1,36 @@
+import logging
+
 from gspread.spreadsheet import Worksheet
 import itertools
 import os
+import environ
 
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
 from armadion.settings import BASE_DIR, env
 
+logger = logging.getLogger(__name__)
+
+env = environ.Env()
+# Take environment variables from .env file
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
 class GoogleSheet:
     def __init__(self, sheet_name_env):
-        scope = ['https://spreadsheets.google.com/feeds',
-                 'https://www.googleapis.com/auth/drive']
-        creds = ServiceAccountCredentials.from_json_keyfile_name(os.path.join(BASE_DIR, 'credentials.json'), scope)
+        logger.warning("Create a new instance of the GoogleSheet class")
+
+        scope = [
+            'https://spreadsheets.google.com/feeds',
+            'https://www.googleapis.com/auth/drive'
+        ]
+
+        credentials_path = os.path.join(BASE_DIR, 'credentials.json')
+        creds = ServiceAccountCredentials.from_json_keyfile_name(credentials_path, scope)
+
         client = gspread.authorize(creds)
-        sheet_name = os.environ.get(sheet_name_env)
+
+        sheet_name = env.str(sheet_name_env)
         self.sheet = client.open(sheet_name).get_worksheet(0)
 
     def get_last_row(self) -> int:
@@ -23,7 +40,9 @@ class GoogleSheet:
         Returns:
             int: The index of the last row.
         """
-        return len(self.sheet.get_all_values())
+        last_row_index = len(self.sheet.get_all_values())
+        return last_row_index
+
 
     def add_new_row(self, *rows: list) -> None:
         """
