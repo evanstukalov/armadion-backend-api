@@ -3,3 +3,5 @@ todo
 .idea/
 .git/
 venv
+debug.log
+.coverage

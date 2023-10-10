@@ -3,6 +3,8 @@ venv
 
 db.sqlite3
 todo
+.coverage
+debug.log
 
 .env
 .env.prod
@@ -10,5 +12,4 @@ todo
 credentials.json
 
 .pytest_cache
-contactform/tests
-setup.cfg
+
