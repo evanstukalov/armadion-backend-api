@@ -27,4 +27,4 @@ jobs:
         pip install -r ./web/requirements.txt
     - name: Run Tests'
       run: |
-        python ./web/manage.py test
+        pytest
