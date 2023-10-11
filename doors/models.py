@@ -23,11 +23,12 @@ class Series(models.Model):
     description = models.TextField()
     photo = models.ImageField(upload_to='series_photos/')
     price_from = models.DecimalField(max_digits=10, decimal_places=2)
-    classification = models.ForeignKey('DoorType', on_delete=models.CASCADE)
+    door_type = models.ForeignKey('DoorType', on_delete=models.CASCADE)
 
     def __str__(self):
         """
         Returns a string representation of the object.
+
         :return: A string representation of the object.
         :rtype: str
         """

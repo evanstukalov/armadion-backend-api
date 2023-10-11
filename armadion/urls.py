@@ -38,7 +38,7 @@ urlpatterns = [
 
     # API
     path('contact-form/', include('contactform.urls')),
-    path('doors/', include('doors.urls')),
+    path('', include('doors.urls')),
 
     # Documentation
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
