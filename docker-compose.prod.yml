@@ -9,6 +9,7 @@ services:
     command: gunicorn armadion.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - static_volume:/armadion/staticfiles
+      - media_volume:/armadion/mediafiles
     expose:
       - 8000
     env_file:
@@ -45,7 +46,8 @@ services:
       - 1337:80
     volumes:
       - static_volume:/armadion/staticfiles
-
+      - media_volume:/armadion/mediafiles
 volumes:
   postgres_data:
   static_volume:
+  media_volume:
