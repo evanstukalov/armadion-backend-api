@@ -9,18 +9,19 @@ from armadion import settings
 logger = logging.getLogger(__name__)
 
 class ContactFormSerializer(serializers.Serializer):
-    current_date = serializers.DateTimeField(default=datetime.now(), format=settings.DATETIME_FORMAT[0], read_only=True)
-    current_time = serializers.DateTimeField(default=datetime.now(), format=settings.DATETIME_FORMAT[1], read_only=True)
-
     user_name = serializers.CharField(max_length=60)
     phone_number = PhoneNumberField(region="RU")
+
+    current_time = serializers.SerializerMethodField()
+
+    def get_current_time(self, obj):
+        return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     def save(self):
         """
         Saves the user data
         """
 
-        logger.warning(self.validated_data)
         # Get the username and phone number from the validated data
         user_name = self.validated_data['user_name']
         phone_number = self.validated_data['phone_number']
