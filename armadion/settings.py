@@ -154,12 +154,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_URL = 'http://0.0.0.0:1337/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles/')
 
-CORS_ORIGIN_WHITELIST = [
-    "http://0.0.0.0:1337",
-    "http://localhost:1337",
-    "http://185.244.51.158:1337/"
-]
-
 CSRF_TRUSTED_ORIGINS = [
     "http://0.0.0.0:1337",
     "http://localhost:1337",
