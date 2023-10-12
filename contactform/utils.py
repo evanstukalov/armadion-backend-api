@@ -17,15 +17,7 @@ env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 class GoogleSheet:
-    _instance = None
-
-    def __new__(cls, *args, **kwargs):
-        if not cls._instance:
-            cls._instance = super(GoogleSheet, cls).__new__(cls)
-        return cls._instance
-
     def __init__(self, sheet_name_env):
-        logger.warning("Create a new instance of the GoogleSheet class")
 
         scope = [
             'https://spreadsheets.google.com/feeds',
