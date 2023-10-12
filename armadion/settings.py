@@ -156,13 +156,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles/')
 CSRF_TRUSTED_ORIGINS = [
     "http://0.0.0.0:1337",
     "http://localhost:1337",
-    "http://185.244.51.158:1337"
+    "http://185.244.51.158:80"
 ]
 
 CORS_ALLOWED_ORIGINS = [
     "http://0.0.0.0:1337",
     "http://localhost:1337",
-    "http://185.244.51.158:1337"
+    "http://185.244.51.158:80"
 ]
 
 CORS_EXPOSE_HEADERS = ['Content-Type', 'X-CSRFToken']
