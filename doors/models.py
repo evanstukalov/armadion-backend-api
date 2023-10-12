@@ -9,6 +9,9 @@ class Door(models.Model):
     popular = models.BooleanField()
     series = models.ForeignKey('Series', on_delete=models.CASCADE)
 
+    class Meta:
+        verbose_name_plural = "Двери"
+
     def __str__(self):
         """
         Returns a string representation of the object.
@@ -25,6 +28,9 @@ class Series(models.Model):
     price_from = models.DecimalField(max_digits=10, decimal_places=2)
     door_type = models.ForeignKey('DoorType', on_delete=models.CASCADE)
 
+    class Meta:
+        verbose_name_plural = "Серии"
+
     def __str__(self):
         """
         Returns a string representation of the object.
@@ -37,6 +43,9 @@ class Series(models.Model):
 class DoorType(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
+
+    class Meta:
+        verbose_name_plural = "Типы дверей"
 
     def __str__(self):
         """
