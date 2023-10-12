@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from doors.models import Door
+from doors.models import Door, Series
 
 
 class DoorCarouselSerializer(serializers.ModelSerializer):
@@ -17,5 +17,5 @@ class SeriesSerializer(serializers.ModelSerializer):
     """
     door_type = serializers.StringRelatedField(read_only=True)
     class Meta:
-        model = Door
+        model = Series
         fields = ['name', 'description', 'photo', 'price_from', 'door_type']
