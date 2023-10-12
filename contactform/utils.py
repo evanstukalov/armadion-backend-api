@@ -55,9 +55,10 @@ class GoogleSheet:
         Returns:
             None
         """
+
         # Create a new row by combining the variable number of lists into a single list
         new_row = list(itertools.chain.from_iterable(rows))
-
+        logger.warning(f"{new_row}")
         # Get the index of the last row in the worksheet and increment it by 1 to determine the index of the new row
         last_row_index = self.get_last_row() + 1
 

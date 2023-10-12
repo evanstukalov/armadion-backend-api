@@ -30,28 +30,19 @@ def contact_form(request: Request) -> Response:
     """
 
     try:
-        # Create a serializer instance with the request data
         serializer = ContactFormSerializer(data=request.data)
-
-        # Check if the serializer is valid
         if serializer.is_valid():
-            # Save the data from the serializer
             serializer.save()
-
-        # If the serializer is not valid, return an error response with the serializer errors
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
     except Exception as e:
-        # Handle any exceptions that occur during the execution of serializer.save()
         return Response(str(e), status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     try:
         task_execute(serializer.data)
-        
+        logger.warning(serializer.data)
+
     except Exception as e:
-        # Handle any exceptions that occur during the execution of add_new_row()
         return Response(str(e), status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    # Return success response with the serialized data
     return Response(serializer.data, status=status.HTTP_201_CREATED)

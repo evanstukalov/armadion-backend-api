@@ -17,11 +17,9 @@ def task_execute(data):
         data (dict): A dictionary containing the values for the new row.
     """
     try:
-        # Create a new instance of the GoogleSheet class
         sheet = GoogleSheet("GOOGLE_SHEET_NAME")
-        # Add new row with the values from the serializer data
         sheet.add_new_row(list(data.values()))
+        logger.warning(data)
 
     except Exception as e:
-        # Or log the error
         logger.error(f"An error occurred: {e}")
