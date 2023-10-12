@@ -17,21 +17,26 @@ env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 class GoogleSheet:
-    def __init__(self, sheet_name_env):
-        logger.warning("Create a new instance of the GoogleSheet class")
+    _instance = None
 
-        scope = [
-            'https://spreadsheets.google.com/feeds',
-            'https://www.googleapis.com/auth/drive'
-        ]
+    def __new__(cls, sheet_name_env):
+        if cls._instance is None:
+            logger.warning("Create a new instance of the GoogleSheet class")
 
-        credentials_path = os.path.join(BASE_DIR, 'credentials.json')
-        creds = ServiceAccountCredentials.from_json_keyfile_name(credentials_path, scope)
+            scope = [
+                'https://spreadsheets.google.com/feeds',
+                'https://www.googleapis.com/auth/drive'
+            ]
 
-        client = gspread.authorize(creds)
+            credentials_path = os.path.join(BASE_DIR, 'credentials.json')
+            creds = ServiceAccountCredentials.from_json_keyfile_name(credentials_path, scope)
 
-        sheet_name = env.str(sheet_name_env)
-        self.sheet = client.open(sheet_name).get_worksheet(0)
+            client = gspread.authorize(creds)
+
+            sheet_name = env.str(sheet_name_env)
+            cls._instance = client.open(sheet_name).get_worksheet(0)
+
+        return cls._instance
 
     def get_last_row(self) -> int:
         """

@@ -18,6 +18,7 @@ def task_execute(data):
     """
     try:
         sheet = GoogleSheet("GOOGLE_SHEET_NAME")
+
         sheet.add_new_row(list(data.values()))
         logger.warning(data)
 
