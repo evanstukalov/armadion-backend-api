@@ -84,16 +84,10 @@ class GoogleSheet:
         fmt_time = {
             'numberFormat': {
                 'type': 'TIME',
-                'pattern': 'hh/mm/ss'
+                'pattern': 'hh:mm:ss'
             }
         }
-        # fmt_date = {
-        #     'numberFormat': {
-        #         'type': 'TIME',
-        #         'pattern': 'dd/mm/yyyy'
-        #     }
-        # }
 
         # Apply the format to the cells in the new row
         sheet.format("A:A", fmt_date)
-        sheet.format("A:A", fmt_time)
+        sheet.format("B:B", fmt_time)
