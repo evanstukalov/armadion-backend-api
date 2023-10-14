@@ -10,15 +10,12 @@ logger = logging.getLogger(__name__)
 
 class ContactFormSerializer(serializers.Serializer):
     current_date = serializers.SerializerMethodField()
-    current_time = serializers.SerializerMethodField()
     user_name = serializers.CharField(max_length=60)
     phone_number = PhoneNumberField(region="RU")
 
     def get_current_date(self, obj):
-        return datetime.now().strftime("%Y-%m-%d")
+        return datetime.now()
 
-    def get_current_time(self, obj):
-        return datetime.now().strftime("%H:%M:%S")
 
     def save(self):
         """
