@@ -57,6 +57,7 @@ class GoogleSheet:
 
         # Create a new row by combining the variable number of lists into a single list
         new_row = list(itertools.chain.from_iterable(rows))
+
         logger.warning(f"{new_row}")
         # Get the index of the last row in the worksheet and increment it by 1 to determine the index of the new row
         last_row_index = self.get_last_row() + 1
@@ -65,7 +66,7 @@ class GoogleSheet:
 
         self.autoformat_new_row(last_row_index, self.sheet)
 
-    def autoformat_new_row(self, last_row_index, sheet: Worksheet):
+    def autoformat_new_row(self, last_row_index: int, sheet: Worksheet) -> None:
         """
         Generates a new row in the specified sheet with the autoformat applied.
         :param last_row_index: The index of the last row in the sheet.
@@ -89,6 +90,6 @@ class GoogleSheet:
         }
 
         # Apply the format to the cells in the new row
-        sheet.format("B:B", fmt_time)
-        sheet.format("A:A", fmt_date)
+        sheet.format(f"B{last_row_index}:B{last_row_index}", fmt_time)
+        sheet.format(f"A{last_row_index}:A{last_row_index}", fmt_date)
 
