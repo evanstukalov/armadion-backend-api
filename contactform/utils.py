@@ -89,5 +89,6 @@ class GoogleSheet:
         }
 
         # Apply the format to the cells in the new row
-        sheet.format("A:A", fmt_date)
         sheet.format("B:B", fmt_time)
+        sheet.format("A:A", fmt_date)
+
