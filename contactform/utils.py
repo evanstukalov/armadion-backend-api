@@ -7,6 +7,7 @@ import environ
 
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+from gspread_formatting import *
 
 from armadion.settings import BASE_DIR, env
 
@@ -60,6 +61,19 @@ class GoogleSheet:
         logger.warning(f"{new_row}")
         # Get the index of the last row in the worksheet and increment it by 1 to determine the index of the new row
         last_row_index = self.get_last_row() + 1
-
         # Insert the new row into the worksheet at the determined index, using the value input option "USER_ENTERED"
         self.sheet.insert_row(new_row, last_row_index, value_input_option="USER_ENTERED")
+
+        self.autoformat_new_row(last_row_index, self.sheet)
+
+    def autoformat_new_row(self, last_row_index, sheet: Worksheet):
+        # Define the format for the cells
+        fmt = {
+            'numberFormat': {
+                'type': 'DATE',
+                'pattern': 'dd/mm/yyyy'
+            }
+        }
+
+        # Apply the format to the cells in the new row
+        sheet.format(last_row_index, fmt)
