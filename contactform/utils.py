@@ -7,7 +7,6 @@ import environ
 
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
-from gspread_formatting import *
 
 from armadion.settings import BASE_DIR, env
 
