@@ -66,6 +66,14 @@ class GoogleSheet:
         self.autoformat_new_row(last_row_index, self.sheet)
 
     def autoformat_new_row(self, last_row_index, sheet: Worksheet):
+        """
+        Generates a new row in the specified sheet with the autoformat applied.
+        :param last_row_index: The index of the last row in the sheet.
+        :type last_row_index: int
+        :param sheet: The sheet to generate the new row in.
+        :type sheet: Worksheet
+        """
+
         # Define the format for the cells
         fmt_date = {
             'numberFormat': {
