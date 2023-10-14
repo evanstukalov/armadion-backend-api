@@ -14,7 +14,7 @@ class ContactFormSerializer(serializers.Serializer):
     phone_number = PhoneNumberField(region="RU")
 
     def get_current_date(self, obj):
-        return datetime.now()
+        return datetime.now().isoformat()
 
 
     def save(self):
