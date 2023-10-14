@@ -62,4 +62,4 @@ class GoogleSheet:
         last_row_index = self.get_last_row() + 1
 
         # Insert the new row into the worksheet at the determined index, using the value input option "USER_ENTERED"
-        self.sheet.insert_row(new_row, last_row_index, value_input_option="USER_ENTERED")
+        self.sheet.append_row(new_row, last_row_index, value_input_option="USER_ENTERED")
