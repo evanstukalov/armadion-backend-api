@@ -67,12 +67,19 @@ class GoogleSheet:
 
     def autoformat_new_row(self, last_row_index, sheet: Worksheet):
         # Define the format for the cells
-        fmt = {
+        fmt_date = {
             'numberFormat': {
                 'type': 'DATE',
                 'pattern': 'dd/mm/yyyy'
             }
         }
+        # fmt_date = {
+        #     'numberFormat': {
+        #         'type': 'TIME',
+        #         'pattern': 'dd/mm/yyyy'
+        #     }
+        # }
 
         # Apply the format to the cells in the new row
-        sheet.format(last_row_index, fmt)
+        sheet.format("A:A", fmt_date)
+/)
