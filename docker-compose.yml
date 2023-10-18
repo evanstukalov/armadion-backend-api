@@ -2,21 +2,27 @@ version: '3.3'
 
 services:
   web:
-    build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    build:
+      context: .
+      dockerfile: ./compose/local/django/Dockerfile
+    command: /start
     ports:
       - 8000:8000
     env_file:
       - .env
     depends_on:
       - db
+
   redis:
-    restart: unless-stopped
     image: redis:7.0.5-alpine
+
   celery:
-    restart: always
-    build: .
-    command: celery -A armadion worker -l info
+    build:
+      context: .
+      dockerfile: ./compose/local/django/Dockerfile
+    command: /start-celeryworker
+    env_file:
+      - .env
     depends_on:
       - db
       - redis

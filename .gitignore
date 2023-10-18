@@ -5,6 +5,7 @@ db.sqlite3
 todo
 .coverage
 debug.log
+.mypy_cache
 
 .env
 .env.prod
