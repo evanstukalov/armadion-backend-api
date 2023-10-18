@@ -16,7 +16,7 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 
 class GoogleSheet:
-    def __init__(self, sheet_name_env):
+    def __init__(self, sheet_name_env: str) -> None:
         scope = [
             'https://spreadsheets.google.com/feeds',
             'https://www.googleapis.com/auth/drive'

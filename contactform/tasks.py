@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 
 
 @shared_task()
-def task_execute(data):
+def task_execute(data: dict) -> None:
     """
     Execute a task to add a new row with the values from the serializer data.
 
