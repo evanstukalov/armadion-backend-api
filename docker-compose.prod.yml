@@ -2,7 +2,9 @@ version: '3.3'
 
 services:
   web:
-    image: evanstukalov/armadion:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
     restart: always
     command: gunicorn armadion.wsgi:application --bind 0.0.0.0:8000
     volumes:
@@ -19,7 +21,9 @@ services:
     image: redis:7.0.5-alpine
   celery:
     restart: always
-    image: evanstukalov/armadion:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
     command: celery -A armadion worker -l info
     depends_on:
       - db
