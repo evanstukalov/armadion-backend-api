@@ -2,8 +2,7 @@ FROM python:3.11.4-slim-buster
 
 # set work directory
 
-RUN mkdir /armadion
-RUN mkdir /armadion/staticfiles
+RUN mkdir /armadion && mkdir /armadion/staticfiles
 
 WORKDIR /armadion
 
@@ -15,17 +14,13 @@ ENV PYTHONUNBUFFERED 1
 RUN apt-get update && apt-get -y install netcat-openbsd
 
 # install dependencies
-RUN pip install --upgrade pip
 COPY ./requirements.txt .
-RUN pip install -r requirements.txt
-
-# copy entrypoint.sh
-COPY scripts/entrypoint.sh scripts/entrypoint.sh
-RUN sed -i 's/\r$//g' /armadion/scripts/entrypoint.sh
-RUN chmod +x /armadion/scripts/entrypoint.sh
+RUN pip install --upgrade pip && pip install -r requirements.txt
 
 # copy project
 COPY . .
+
+RUN sed -i 's/\r$//g' /armadion/scripts/entrypoint.sh && chmod +x /armadion/scripts/entrypoint.sh
 
 # run entrypoint.sh
 ENTRYPOINT ["/armadion/scripts/entrypoint.sh"]
