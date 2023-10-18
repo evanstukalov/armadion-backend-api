@@ -42,7 +42,7 @@ jobs:
       run: |
         flake8
 
-    - name: mypy
+    - name: Run mypy
       run: |
         mypy .
 
