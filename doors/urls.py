@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import path
 from doors.views import DoorListAPIView, SeriesListAPIView
 
 app_name = 'doors'

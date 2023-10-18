@@ -4,7 +4,6 @@ from rest_framework import generics
 
 from doors.models import Door, Series
 from doors.serializer import DoorCarouselSerializer, SeriesSerializer
-from rest_framework.response import Response
 
 
 class DoorListAPIView(generics.ListAPIView):

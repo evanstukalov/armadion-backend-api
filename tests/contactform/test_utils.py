@@ -1,14 +1,14 @@
-
 import pytest
 from contactform.utils import GoogleSheet
+
 
 def test_create_instance_with_valid_sheet_name_env(google_sheet_obj: GoogleSheet):
     google_sheet = google_sheet_obj
     # Assert
     assert isinstance(google_sheet, GoogleSheet)
 
-def test_raises_error_with_invalid_or_missing_sheet_name_env():
 
+def test_raises_error_with_invalid_or_missing_sheet_name_env():
     # Arrange
     sheet_name_env = "INVALID_SHEET_NAME"
 
@@ -18,7 +18,6 @@ def test_raises_error_with_invalid_or_missing_sheet_name_env():
 
 
 def test_get_last_row_index(google_sheet_obj: GoogleSheet):
-
     # Act
     last_row_index = google_sheet_obj.get_last_row()
 
@@ -36,6 +35,7 @@ def test_add_new_row_with_valid_input(google_sheet_obj: GoogleSheet):
     new_row_index = google_sheet.get_last_row()
     # Assert
     assert new_row_index == last_row_index + 1
+
 
 def test_add_multiple_new_rows_with_valid_input(google_sheet_obj: GoogleSheet):
     # Arrange

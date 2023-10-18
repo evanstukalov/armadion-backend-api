@@ -1,5 +1,5 @@
-from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
+
 from contactform.views import contact_form
 
 app_name = 'contactform'

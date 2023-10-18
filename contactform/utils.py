@@ -1,24 +1,22 @@
-import logging
-
-from gspread.spreadsheet import Worksheet
 import itertools
+import logging
 import os
-import environ
 
+import environ
 import gspread
+from gspread.spreadsheet import Worksheet
 from oauth2client.service_account import ServiceAccountCredentials
 
 from armadion.settings import BASE_DIR, env
 
 logger = logging.getLogger(__name__)
 
-env = environ.Env()
 # Take environment variables from .env file
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
+
 class GoogleSheet:
     def __init__(self, sheet_name_env):
-
         scope = [
             'https://spreadsheets.google.com/feeds',
             'https://www.googleapis.com/auth/drive'
@@ -42,7 +40,6 @@ class GoogleSheet:
         last_row_index = len(self.sheet.get_all_values())
         return last_row_index
 
-
     def add_new_row(self, *rows: list) -> None:
         """
         Add a new row to the worksheet with the given arguments.
@@ -54,7 +51,6 @@ class GoogleSheet:
         Returns:
             None
         """
-
         # Create a new row by combining the variable number of lists into a single list
         new_row = list(itertools.chain.from_iterable(rows))
 
@@ -92,4 +88,3 @@ class GoogleSheet:
         # Apply the format to the cells in the new row
         sheet.format(f"B{last_row_index}:B{last_row_index}", fmt_time)
         sheet.format(f"A{last_row_index}:A{last_row_index}", fmt_date)
-

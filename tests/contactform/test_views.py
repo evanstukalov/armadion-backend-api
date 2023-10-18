@@ -1,12 +1,8 @@
-import json
-from datetime import date, datetime
-
 from django.urls import reverse
 import pytest
 
 
 class TestContactFormEndpoints:
-
     url = reverse('contactform:contact-form')
 
     @pytest.mark.parametrize('user_name, phone_number, status_code',
@@ -35,5 +31,3 @@ class TestContactFormEndpoints:
 
         # Assert
         assert response.status_code == status_code
-
-

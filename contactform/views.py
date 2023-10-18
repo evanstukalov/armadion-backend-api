@@ -1,19 +1,17 @@
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework.request import Request
-from contactform.serializers import ContactFormSerializer
-from rest_framework import status
-from drf_yasg.utils import swagger_auto_schema
-
-
 # import the logging library
 import logging
 
+from drf_yasg.utils import swagger_auto_schema
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.request import Request
+from rest_framework.response import Response
+
+from contactform.serializers import ContactFormSerializer
 from contactform.tasks import task_execute
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
-
 
 
 @api_view(['POST'])

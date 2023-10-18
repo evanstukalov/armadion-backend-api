@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Door(models.Model):
     name = models.CharField(max_length=255)
     photo = models.ImageField(upload_to='door_photos/')
@@ -39,6 +40,7 @@ class Series(models.Model):
         :rtype: str
         """
         return self.name
+
 
 class DoorType(models.Model):
     name = models.CharField(max_length=255)
