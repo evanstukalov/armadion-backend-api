@@ -5,6 +5,9 @@ RUN mkdir /armadion && mkdir /armadion/staticfiles
 
 WORKDIR /armadion
 
+# create the app user
+RUN addgroup --system app && adduser --system --group app
+
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
@@ -20,6 +23,9 @@ COPY . .
 COPY .env.prod .env
 
 RUN sed -i 's/\r$//g' /armadion/scripts/entrypoint.prod.sh && chmod +x /armadion/scripts/entrypoint.prod.sh
+
+# change to the app user
+USER app
 
 # run entrypoint.sh
 ENTRYPOINT ["/armadion/scripts/entrypoint.prod.sh"]
