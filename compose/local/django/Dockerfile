@@ -20,7 +20,6 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 # copy project
 COPY . .
 
-
 COPY ./compose/local/django/entrypoint /entrypoint
 RUN sed -i 's/\r$//g' /entrypoint && chmod +x /entrypoint
 

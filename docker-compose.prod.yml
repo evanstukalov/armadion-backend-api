@@ -4,9 +4,9 @@ services:
   web:
     build:
       context: .
-      dockerfile: Dockerfile.prod
+      dockerfile: ./compose/production/django/Dockerfile
     restart: always
-    command: gunicorn armadion.wsgi:application --bind 0.0.0.0:8000
+    command: /start
     volumes:
       - static_volume:/armadion/staticfiles
       - media_volume:/armadion/mediafiles
@@ -16,20 +16,20 @@ services:
       - .env.prod
     depends_on:
       - db
+
   redis:
-    restart: unless-stopped
     image: redis:7.0.5-alpine
+
   celery:
-    restart: always
     build:
       context: .
-      dockerfile: Dockerfile.prod
-    command: celery -A armadion worker -l info
+      dockerfile: ./compose/production/django/Dockerfile
+    command: /start-celeryworker
+    env_file:
+      - .env.prod
     depends_on:
       - db
       - redis
-      - web
-      - nginx
   db:
     image: postgres:15.4-bullseye
     restart: always
@@ -38,8 +38,7 @@ services:
     env_file:
       - .env.prod.db
   nginx:
-    build: ./nginx
-    restart: always
+    build: ./compose/production/nginx/
     depends_on:
       - web
     ports:
