@@ -25,6 +25,10 @@ jobs:
       run: |
         echo '${{ secrets.CREDENTIALS_JSON }}' > credentials.json
 
+    - name: Create .env
+      run: |
+        echo '${{ secrets.ENV_DEV }}' > .env
+
     - name: List files
       run: |
         ls -la
