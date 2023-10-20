@@ -1,26 +1,19 @@
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.pagination import PageNumberPagination
 from rest_framework import generics
-
-from doors.models import Door, Series
-from doors.serializer import DoorCarouselSerializer, SeriesSerializer
+from doors.models import Door
+from doors.serializer import MainPageCatalogSerializer
+from rest_framework.pagination import LimitOffsetPagination
 
 
 class DoorListAPIView(generics.ListAPIView):
     """
-    API view for listing doors.
+    API view for the main page catalog
     """
-    serializer_class = DoorCarouselSerializer
+    serializer_class = MainPageCatalogSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['popular']
     queryset = Door.objects.all()
-    pagination_class = PageNumberPagination
-    page_size = 10
+
+    pagination_class = LimitOffsetPagination
 
 
-class SeriesListAPIView(generics.ListAPIView):
-    """
-    API view for listing series.
-    """
-    serializer_class = SeriesSerializer
-    queryset = Series.objects.all()

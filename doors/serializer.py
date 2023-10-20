@@ -1,24 +1,13 @@
 from rest_framework import serializers
-from doors.models import Door, Series
+from doors.models import Door
 
 
-class DoorCarouselSerializer(serializers.ModelSerializer):
+class MainPageCatalogSerializer(serializers.ModelSerializer):
     """
-    Serializer for the door carousel
+    Serializer for the main page catalog
     """
-    door_type = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = Door
-        fields = ['name', 'photo', 'in_stock', 'door_type', 'price']
+        fields = ['photo', 'title', 'price', 'article']
 
-
-class SeriesSerializer(serializers.ModelSerializer):
-    """
-    Serializer for the series
-    """
-    door_type = serializers.StringRelatedField(read_only=True)
-
-    class Meta:
-        model = Series
-        fields = ['name', 'description', 'photo', 'price_from', 'door_type']
