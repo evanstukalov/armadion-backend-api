@@ -6,8 +6,8 @@ class Door(models.Model):
     photo = models.ImageField(upload_to='door_photos/')
     in_stock = models.BooleanField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    popular = models.BooleanField()
     article = models.CharField(max_length=255, blank=True, null=True)
+    click_counter = models.IntegerField(default=0)
 
     class Meta:
         verbose_name_plural = "Двери"

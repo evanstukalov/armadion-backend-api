@@ -1,8 +1,12 @@
 from django.urls import path
-from doors.views import DoorListAPIView
+from rest_framework import routers
+
+from doors.views import DoorViewSet
 
 app_name = 'doors'
 
-urlpatterns = [
-    path('doors/', DoorListAPIView.as_view(), name='door-list'),
-]
+
+
+router = routers.SimpleRouter()
+router.register(r'doors', DoorViewSet)
+urlpatterns = router.urls
