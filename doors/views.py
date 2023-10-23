@@ -6,8 +6,6 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import filters
 
-
-
 class DoorViewSet(viewsets.ReadOnlyModelViewSet):
     """
     A viewset that provides default `list` and `retrieve` actions.
