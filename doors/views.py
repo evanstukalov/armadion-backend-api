@@ -17,14 +17,3 @@ class DoorViewSet(viewsets.ReadOnlyModelViewSet):
     filter_backends = [filters.OrderingFilter]
     ordering_fields = ['click_counter']
 
-    def retrieve(self, request, *args, **kwargs):
-        """
-        Retrieve a model instance and increment the click counter
-        """
-        instance = self.get_object()
-        instance.click_counter += 1
-        instance.save()
-        serializer = self.get_serializer(instance)
-        return Response(serializer.data)
-
-
