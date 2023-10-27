@@ -1,9 +1,8 @@
-from rest_framework import routers
+from django.urls import path
 
-from doors.views import DoorViewSet
+from doors.views import MainPageDoorsAPIView, DetailViewDoorsAPIView
 
-app_name = 'doors'
-
-router = routers.SimpleRouter()
-router.register(r'doors', DoorViewSet)
-urlpatterns = router.urls
+urlpatterns = [
+    path('main-page-doors/', MainPageDoorsAPIView.as_view(), name='main-page-door-list'),
+    path('doors/<int:pk>/', DetailViewDoorsAPIView.as_view(), name='door_detail'),
+]
