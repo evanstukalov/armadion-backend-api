@@ -5,9 +5,9 @@ from doors.serializer import MainPageCatalogSerializer, DetailViewSerializer, Li
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework import filters
 from rest_framework import generics
-from rest_framework.response import Response
 
 logger = logging.getLogger(__name__)
+
 
 def is_similar(product1, product2):
     """
@@ -16,9 +16,8 @@ def is_similar(product1, product2):
     :param product2:
     :return:
     """
-    logger.warning(product1.price)
-    logger.warning(product2.price)
     return product1.price == product2.price
+
 
 class MainPageDoorsAPIView(generics.ListAPIView):
     """
@@ -29,6 +28,7 @@ class MainPageDoorsAPIView(generics.ListAPIView):
     pagination_class = LimitOffsetPagination
     filter_backends = [filters.OrderingFilter]
     ordering_fields = ['click_counter']
+
 
 class ListViewDoorsAPIView(generics.ListAPIView):
     """
@@ -45,6 +45,7 @@ class DetailViewDoorsAPIView(generics.RetrieveAPIView):
     queryset = Door.objects.all()
     serializer_class = DetailViewSerializer
 
+
 class SimilarDoorsAPIView(generics.ListAPIView):
     """
     API View that provides similar products
@@ -55,9 +56,5 @@ class SimilarDoorsAPIView(generics.ListAPIView):
         door_id = self.kwargs.get('pk')
         door = Door.objects.get(pk=door_id)
         similar_doors = Door.objects.all().exclude(pk=door_id)
-        logger.warning(similar_doors)
         similar_doors_sorted = sorted(similar_doors, key=lambda p: is_similar(door, p), reverse=True)[:3]
-        logger.warning(similar_doors_sorted)
         return similar_doors_sorted
-
-

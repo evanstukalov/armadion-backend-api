@@ -11,10 +11,12 @@ class MainPageCatalogSerializer(serializers.ModelSerializer):
         model = Door
         fields = ['image_one', 'title', 'price', 'article']
 
+
 class CharacteristicSerializer(serializers.ModelSerializer):
     class Meta:
         model = Characteristic
         fields = ['id', 'name', 'value']
+
 
 class CategoryCharacteristicSerializer(serializers.ModelSerializer):
     characteristics = CharacteristicSerializer(many=True, read_only=True)
@@ -23,8 +25,10 @@ class CategoryCharacteristicSerializer(serializers.ModelSerializer):
         model = CategoryCharacteristic
         fields = ['id', 'name', 'characteristics']
 
+
 class ListViewSerializer(serializers.ModelSerializer):
     category_characteristics = CategoryCharacteristicSerializer(many=True, read_only=True)
+
     class Meta:
         model = Door
         fields = [
@@ -44,9 +48,11 @@ class ListViewSerializer(serializers.ModelSerializer):
 
             'category_characteristics'
         ]
+
 
 class DetailViewSerializer(serializers.ModelSerializer):
     category_characteristics = CategoryCharacteristicSerializer(many=True, read_only=True)
+
     class Meta:
         model = Door
         fields = [
@@ -66,4 +72,3 @@ class DetailViewSerializer(serializers.ModelSerializer):
 
             'category_characteristics'
         ]
-

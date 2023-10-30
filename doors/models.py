@@ -1,6 +1,5 @@
 from django.db import models
 from django.utils.text import slugify
-from django.urls import reverse
 
 
 class Characteristic(models.Model):
@@ -22,7 +21,6 @@ class Characteristic(models.Model):
 class CategoryCharacteristic(models.Model):
     name = models.CharField(max_length=200)
     characteristics = models.ManyToManyField(Characteristic, blank=True)
-
 
     class Meta:
         verbose_name_plural = "Категории характеристик"
@@ -55,7 +53,6 @@ class Door(models.Model):
     safeguards = models.TextField(blank=True, null=True)
 
     category_characteristics = models.ManyToManyField(CategoryCharacteristic, blank=True)
-
 
     class Meta:
         verbose_name_plural = "Двери"
