@@ -1,0 +1,157 @@
+[
+  {
+    "model": "doors.feature",
+    "pk": 3,
+    "fields": {
+      "name": "Габаритные размеры (В*Ш*Г), мм",
+      "value": "2100*1250*60",
+      "feature_category": 3
+    }
+  },
+  {
+    "model": "doors.feature",
+    "pk": 4,
+    "fields": {
+      "name": "Класс огнестойкости",
+      "value": "EI 60",
+      "feature_category": 3
+    }
+  },
+  {
+    "model": "doors.feature",
+    "pk": 5,
+    "fields": {
+      "name": "Материал внешней отделки",
+      "value": "металл 1,2 мм",
+      "feature_category": 4
+    }
+  },
+  {
+    "model": "doors.feature",
+    "pk": 6,
+    "fields": {
+      "name": "Цвет внешней отделки",
+      "value": "РАЛ 7001",
+      "feature_category": 4
+    }
+  },
+  {
+    "model": "doors.feature",
+    "pk": 7,
+    "fields": {
+      "name": "Габаритные размеры (В*Ш*Г), мм",
+      "value": "2100*1000*60",
+      "feature_category": 5
+    }
+  },
+  {
+    "model": "doors.feature",
+    "pk": 8,
+    "fields": {
+      "name": "Габаритные размеры (В*Ш*Г), мм",
+      "value": "2100*1000*60",
+      "feature_category": 6
+    }
+  },
+  {
+    "model": "doors.feature",
+    "pk": 9,
+    "fields": {
+      "name": "Класс огнестойкости",
+      "value": "EI 60",
+      "feature_category": 6
+    }
+  },
+  {
+    "model": "doors.featurecategory",
+    "pk": 3,
+    "fields": {
+      "name": "Характеристики",
+      "door": 5
+    }
+  },
+  {
+    "model": "doors.featurecategory",
+    "pk": 4,
+    "fields": {
+      "name": "Внешняя отделка",
+      "door": 5
+    }
+  },
+  {
+    "model": "doors.featurecategory",
+    "pk": 5,
+    "fields": {
+      "name": "Характеристики",
+      "door": 6
+    }
+  },
+  {
+    "model": "doors.featurecategory",
+    "pk": 6,
+    "fields": {
+      "name": "Характеристики",
+      "door": 7
+    }
+  },
+  {
+    "model": "doors.door",
+    "pk": 5,
+    "fields": {
+      "title": "Противопожарная двустворчатая дверь EI 60 РАЛ 7001",
+      "article": "60 РАЛ 7001",
+      "click_counter": 0,
+      "in_stock": true,
+      "slug": "protivopozharnaya-dvustvorchataya-dver-ei-60-ral-7001",
+      "image_one": "door_photos/дверь.jpg",
+      "image_two": "",
+      "image_three": "",
+      "image_four": "",
+      "price": "14000.00",
+      "description": "",
+      "delivery": "",
+      "payment": "",
+      "safeguards": ""
+    }
+  },
+  {
+    "model": "doors.door",
+    "pk": 6,
+    "fields": {
+      "title": "Противопожарная одностворчатая дверь  EI 60 РАЛ 8004",
+      "article": "EI 60 РАЛ 8004",
+      "click_counter": 0,
+      "in_stock": false,
+      "slug": "protivopozharnaya-odnostvorchataya-dver-ei-60-ral-8004",
+      "image_one": "door_photos/двери2.jpg",
+      "image_two": "",
+      "image_three": "",
+      "image_four": "",
+      "price": "8800.00",
+      "description": "",
+      "delivery": "",
+      "payment": "",
+      "safeguards": ""
+    }
+  },
+  {
+    "model": "doors.door",
+    "pk": 7,
+    "fields": {
+      "title": "Противопожарная одностворчатая дверь с окном EI 60 РАЛ 3002",
+      "article": "EI 60 РАЛ 3002",
+      "click_counter": 0,
+      "in_stock": false,
+      "slug": "protivopozharnaya-odnostvorchataya-dver-s-oknom-ei-60-ral-3002",
+      "image_one": "door_photos/двери3.jpg",
+      "image_two": "",
+      "image_three": "",
+      "image_four": "",
+      "price": "12800.00",
+      "description": "",
+      "delivery": "",
+      "payment": "",
+      "safeguards": ""
+    }
+  }
+]
