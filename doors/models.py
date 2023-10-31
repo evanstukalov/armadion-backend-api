@@ -32,7 +32,7 @@ class FeatureCategory(models.Model):
         :return: A string representation of the object.
         :rtype: str
         """
-        return self.name
+        return f'{self.name} - {self.door.title}'
 
 
 class Door(models.Model):

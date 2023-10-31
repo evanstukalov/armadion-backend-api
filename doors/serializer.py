@@ -38,7 +38,6 @@ class FeatureCategorySerializer(serializers.ModelSerializer):
 
 
 class ListViewSerializer(serializers.ModelSerializer):
-    feature_categories = serializers.SerializerMethodField()
 
     class Meta:
         model = Door
@@ -56,12 +55,7 @@ class ListViewSerializer(serializers.ModelSerializer):
             'delivery',
             'payment',
             'safeguards',
-
-            'feature_categories'
         ]
-
-    def get_feature_categories(self, obj):
-        return FeatureCategorySerializer(FeatureCategory.objects.filter(pk=obj.pk), many=True).data
 
 
 class DetailViewSerializer(serializers.ModelSerializer):
@@ -90,7 +84,7 @@ class DetailViewSerializer(serializers.ModelSerializer):
         ]
 
     def get_feature_categories(self, obj):
-        return FeatureCategorySerializer(FeatureCategory.objects.filter(pk=obj.pk), many=True).data
+        return FeatureCategorySerializer(FeatureCategory.objects.filter(door=obj), many=True).data
 
 
     def get_similar_doors(self, obj):

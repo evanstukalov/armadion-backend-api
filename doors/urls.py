@@ -1,6 +1,6 @@
 from django.urls import path
 
-from doors.views import MainPageDoorsAPIView, DetailViewDoorsAPIView, SimilarDoorsAPIView, ListViewDoorsAPIView
+from doors.views import MainPageDoorsAPIView, DetailViewDoorsAPIView, ListViewDoorsAPIView
 
 urlpatterns = [
     path('main-page-doors/', MainPageDoorsAPIView.as_view(), name='main-page-door-list'),

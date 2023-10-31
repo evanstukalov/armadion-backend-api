@@ -8,11 +8,11 @@ class DoorAdmin(admin.ModelAdmin):
 
 
 class FeatureAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'value')
+    list_display = ('id', 'name', 'value', 'feature_category')
 
 
 class FeatureCategoryAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')
+    list_display = ('id', 'name', 'door')
 
 
 admin.site.register(Door, DoorAdmin)
