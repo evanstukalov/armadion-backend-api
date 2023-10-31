@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from doors.models import Door, FeatureCategory, Feature
 
+
 def is_similar(product1: Door, product2: Door) -> bool:
     """
     Check if two products are similar
@@ -9,6 +10,7 @@ def is_similar(product1: Door, product2: Door) -> bool:
     :return:
     """
     return product1.price == product2.price
+
 
 class MainPageCatalogSerializer(serializers.ModelSerializer):
     """
@@ -38,7 +40,6 @@ class FeatureCategorySerializer(serializers.ModelSerializer):
 
 
 class ListViewSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Door
         fields = [
@@ -85,7 +86,6 @@ class DetailViewSerializer(serializers.ModelSerializer):
 
     def get_feature_categories(self, obj):
         return FeatureCategorySerializer(FeatureCategory.objects.filter(door=obj), many=True).data
-
 
     def get_similar_doors(self, obj):
         door = Door.objects.get(pk=obj.pk)

@@ -53,7 +53,6 @@ class Door(models.Model):
     payment = models.TextField(blank=True, null=True)
     safeguards = models.TextField(blank=True, null=True)
 
-
     class Meta:
         verbose_name_plural = "Двери"
 

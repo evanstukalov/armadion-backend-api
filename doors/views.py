@@ -9,7 +9,6 @@ from rest_framework import generics
 logger = logging.getLogger(__name__)
 
 
-
 class MainPageDoorsAPIView(generics.ListAPIView):
     """
     API View for the main page that provides doors list.
