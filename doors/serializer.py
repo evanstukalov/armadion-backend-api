@@ -1,6 +1,14 @@
 from rest_framework import serializers
-from doors.models import Door, Characteristic, CategoryCharacteristic
+from doors.models import Door, FeatureCategory, Feature
 
+def is_similar(product1: Door, product2: Door) -> bool:
+    """
+    Check if two products are similar
+    :param product1:
+    :param product2:
+    :return:
+    """
+    return product1.price == product2.price
 
 class MainPageCatalogSerializer(serializers.ModelSerializer):
     """
@@ -12,22 +20,25 @@ class MainPageCatalogSerializer(serializers.ModelSerializer):
         fields = ['image_one', 'title', 'price', 'article']
 
 
-class CharacteristicSerializer(serializers.ModelSerializer):
+class FeatureSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Characteristic
+        model = Feature
         fields = ['id', 'name', 'value']
 
 
-class CategoryCharacteristicSerializer(serializers.ModelSerializer):
-    characteristics = CharacteristicSerializer(many=True, read_only=True)
+class FeatureCategorySerializer(serializers.ModelSerializer):
+    features = serializers.SerializerMethodField()
 
     class Meta:
-        model = CategoryCharacteristic
-        fields = ['id', 'name', 'characteristics']
+        model = FeatureCategory
+        fields = ['id', 'name', 'features']
+
+    def get_features(self, obj):
+        return FeatureSerializer(Feature.objects.filter(pk=obj.pk), many=True).data
 
 
 class ListViewSerializer(serializers.ModelSerializer):
-    category_characteristics = CategoryCharacteristicSerializer(many=True, read_only=True)
+    feature_categories = serializers.SerializerMethodField()
 
     class Meta:
         model = Door
@@ -46,12 +57,16 @@ class ListViewSerializer(serializers.ModelSerializer):
             'payment',
             'safeguards',
 
-            'category_characteristics'
+            'feature_categories'
         ]
+
+    def get_feature_categories(self, obj):
+        return FeatureCategorySerializer(FeatureCategory.objects.filter(pk=obj.pk), many=True).data
 
 
 class DetailViewSerializer(serializers.ModelSerializer):
-    category_characteristics = CategoryCharacteristicSerializer(many=True, read_only=True)
+    feature_categories = serializers.SerializerMethodField()
+    similar_doors = serializers.SerializerMethodField()
 
     class Meta:
         model = Door
@@ -70,5 +85,16 @@ class DetailViewSerializer(serializers.ModelSerializer):
             'payment',
             'safeguards',
 
-            'category_characteristics'
+            'feature_categories',
+            'similar_doors'
         ]
+
+    def get_feature_categories(self, obj):
+        return FeatureCategorySerializer(FeatureCategory.objects.filter(pk=obj.pk), many=True).data
+
+
+    def get_similar_doors(self, obj):
+        door = Door.objects.get(pk=obj.pk)
+        similar_doors = Door.objects.all().exclude(pk=obj.pk)
+        similar_doors_sorted = sorted(similar_doors, key=lambda p: is_similar(door, p), reverse=True)[:3]
+        return MainPageCatalogSerializer(similar_doors_sorted, many=True).data

@@ -2,9 +2,10 @@ from django.db import models
 from django.utils.text import slugify
 
 
-class Characteristic(models.Model):
+class Feature(models.Model):
     name = models.CharField(max_length=200)
     value = models.CharField(max_length=200)
+    feature_category = models.ForeignKey("FeatureCategory", on_delete=models.CASCADE)
 
     class Meta:
         verbose_name_plural = "Характеристики"
@@ -18,9 +19,9 @@ class Characteristic(models.Model):
         return self.name
 
 
-class CategoryCharacteristic(models.Model):
+class FeatureCategory(models.Model):
     name = models.CharField(max_length=200)
-    characteristics = models.ManyToManyField(Characteristic, blank=True)
+    door = models.ForeignKey("Door", on_delete=models.CASCADE)
 
     class Meta:
         verbose_name_plural = "Категории характеристик"
@@ -52,7 +53,6 @@ class Door(models.Model):
     payment = models.TextField(blank=True, null=True)
     safeguards = models.TextField(blank=True, null=True)
 
-    category_characteristics = models.ManyToManyField(CategoryCharacteristic, blank=True)
 
     class Meta:
         verbose_name_plural = "Двери"

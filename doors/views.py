@@ -9,15 +9,6 @@ from rest_framework import generics
 logger = logging.getLogger(__name__)
 
 
-def is_similar(product1: Door, product2: Door) -> bool:
-    """
-    Check if two products are similar
-    :param product1:
-    :param product2:
-    :return:
-    """
-    return product1.price == product2.price
-
 
 class MainPageDoorsAPIView(generics.ListAPIView):
     """
@@ -44,21 +35,3 @@ class DetailViewDoorsAPIView(generics.RetrieveAPIView):
     """
     queryset = Door.objects.all()
     serializer_class = DetailViewSerializer
-
-
-class SimilarDoorsAPIView(generics.ListAPIView):
-    """
-    API View that provides similar products
-    """
-    serializer_class = MainPageCatalogSerializer
-
-    def get_queryset(self):
-        """
-        Get queryset of similar products
-        :return:
-        """
-        door_id = self.kwargs.get('pk')
-        door = Door.objects.get(pk=door_id)
-        similar_doors = Door.objects.all().exclude(pk=door_id)
-        similar_doors_sorted = sorted(similar_doors, key=lambda p: is_similar(door, p), reverse=True)[:3]
-        return similar_doors_sorted
