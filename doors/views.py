@@ -6,8 +6,6 @@ from rest_framework.pagination import LimitOffsetPagination
 from rest_framework import filters
 from rest_framework import generics
 from rest_framework.response import Response
-from drf_yasg.utils import swagger_auto_schema
-from drf_yasg import openapi
 
 logger = logging.getLogger(__name__)
 
@@ -30,6 +28,7 @@ class ListViewDoorsAPIView(generics.ListAPIView):
     queryset = Door.objects.all()
     serializer_class = ListViewSerializer
 
+
 class DetailViewDoorsAPIView(generics.RetrieveAPIView):
     """
     API View for the detail page that provides doors detail.
@@ -45,4 +44,3 @@ class DetailViewDoorsAPIView(generics.RetrieveAPIView):
             instance.save()
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
-
