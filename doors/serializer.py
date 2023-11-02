@@ -19,7 +19,7 @@ class MainPageCatalogSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Door
-        fields = ['image_one', 'title', 'price', 'article']
+        fields = ['id', 'image_one', 'title', 'price', 'article']
 
 
 class FeatureSerializer(serializers.ModelSerializer):
@@ -36,7 +36,7 @@ class FeatureCategorySerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'features']
 
     def get_features(self, obj):
-        return FeatureSerializer(Feature.objects.filter(pk=obj.pk), many=True).data
+        return FeatureSerializer(Feature.objects.filter(id=obj.id), many=True).data
 
 
 class ListViewSerializer(serializers.ModelSerializer):
@@ -88,7 +88,7 @@ class DetailViewSerializer(serializers.ModelSerializer):
         return FeatureCategorySerializer(FeatureCategory.objects.filter(door=obj), many=True).data
 
     def get_similar_doors(self, obj):
-        door = Door.objects.get(pk=obj.pk)
-        similar_doors = Door.objects.all().exclude(pk=obj.pk)
+        door = Door.objects.get(id=obj.id)
+        similar_doors = Door.objects.all().exclude(id=obj.id)
         similar_doors_sorted = sorted(similar_doors, key=lambda p: is_similar(door, p), reverse=True)[:3]
         return MainPageCatalogSerializer(similar_doors_sorted, many=True).data
