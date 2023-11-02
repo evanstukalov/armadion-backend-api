@@ -36,7 +36,7 @@ class FeatureCategorySerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'features']
 
     def get_features(self, obj):
-        return FeatureSerializer(Feature.objects.filter(id=obj.id), many=True).data
+        return FeatureSerializer(Feature.objects.filter(feature_category=obj), many=True).data
 
 
 class ListViewSerializer(serializers.ModelSerializer):
