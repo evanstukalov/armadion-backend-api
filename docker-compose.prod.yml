@@ -37,6 +37,8 @@ services:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
       - .env.prod.db
+    ports:
+      - "5431:5432"
   nginx:
     build: ./compose/production/nginx/
     depends_on:
