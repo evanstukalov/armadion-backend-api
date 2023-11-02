@@ -1,8 +1,11 @@
+import uuid
+
 from django.db import models
 from django.utils.text import slugify
 
 
 class Feature(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=200)
     value = models.CharField(max_length=200)
     feature_category = models.ForeignKey("FeatureCategory", on_delete=models.CASCADE)
@@ -20,6 +23,7 @@ class Feature(models.Model):
 
 
 class FeatureCategory(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=200)
     door = models.ForeignKey("Door", on_delete=models.CASCADE)
 
@@ -36,6 +40,7 @@ class FeatureCategory(models.Model):
 
 
 class Door(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=255)
     article = models.CharField(max_length=255, blank=True, null=True)
     click_counter = models.IntegerField(default=0)
