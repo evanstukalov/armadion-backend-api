@@ -1,7 +1,7 @@
 import logging
 
-from doors.models import Door
-from doors.serializer import MainPageCatalogSerializer, DetailViewSerializer, ListViewSerializer
+from doors.models import Door, Filter
+from doors.serializer import MainPageCatalogSerializer, DetailViewSerializer, ListViewSerializer, FilterSerializer
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework import filters
 from rest_framework import generics
@@ -44,3 +44,11 @@ class DetailViewDoorsAPIView(generics.RetrieveAPIView):
             instance.save()
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
+
+
+class ListFiltersAPIView(generics.ListAPIView):
+    """
+    API View for the list page that provides filters list.
+    """
+    queryset = Filter.objects.all()
+    serializer_class = FilterSerializer
