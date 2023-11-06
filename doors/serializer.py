@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from doors.models import Door, FeatureCategory, Feature
+from doors.models import Door, FeatureCategory, Feature, FilterValue, Filter
 
 
 def is_similar(product1: Door, product2: Door) -> bool:
@@ -92,3 +92,16 @@ class DetailViewSerializer(serializers.ModelSerializer):
         similar_doors = Door.objects.all().exclude(id=obj.id)
         similar_doors_sorted = sorted(similar_doors, key=lambda p: is_similar(door, p), reverse=True)[:3]
         return MainPageCatalogSerializer(similar_doors_sorted, many=True).data
+
+
+class FilterValueSerializer(serializers.ModelSerializer):
+   class Meta:
+       model = FilterValue
+       fields = ['id', 'label', 'value', 'filter']
+
+class FilterSerializer(serializers.ModelSerializer):
+   values = FilterValueSerializer(many=True, read_only=True)
+
+   class Meta:
+       model = Filter
+       fields = ['id', 'name', 'value', 'values']
