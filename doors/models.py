@@ -73,3 +73,46 @@ class Door(models.Model):
         if not self.slug:
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
+
+class FilterValue(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    label = models.CharField(max_length=255)
+    value = models.SlugField(max_length=255, unique=True, db_index=True)
+    filter = models.ForeignKey("Filter", on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name_plural = "Значения фильтров"
+
+    def __str__(self):
+        """
+        Returns a string representation of the object.
+        :return: A string representation of the object.
+        :rtype: str
+        """
+        return self.label
+
+    def save(self, *args, **kwargs):
+        if not self.value:
+            self.value = slugify(self.label)
+        super().save(*args, **kwargs)
+
+class Filter(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=255)
+    value = models.SlugField(max_length=255, unique=True, db_index=True)
+
+    class Meta:
+        verbose_name_plural = "Фильтры"
+
+    def __str__(self):
+        """
+        Returns a string representation of the object.
+        :return: A string representation of the object.
+        :rtype: str
+        """
+        return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.value:
+            self.value = slugify(self.name)
+        super().save(*args, **kwargs)
