@@ -8,6 +8,7 @@ class Feature(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=200)
     value = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=255)
     feature_category = models.ForeignKey("FeatureCategory", on_delete=models.CASCADE)
 
     class Meta:
@@ -21,11 +22,18 @@ class Feature(models.Model):
         """
         return self.name
 
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
 
 class FeatureCategory(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=255)
     door = models.ForeignKey("Door", on_delete=models.CASCADE)
+
 
     class Meta:
         verbose_name_plural = "Категории характеристик"
@@ -38,6 +46,11 @@ class FeatureCategory(models.Model):
         """
         return f'{self.name} - {self.door.title}'
 
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
 
 class Door(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -45,7 +58,7 @@ class Door(models.Model):
     article = models.CharField(max_length=255, blank=True, null=True)
     click_counter = models.IntegerField(default=0)
     in_stock = models.BooleanField()
-    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='URL')
+    slug = models.SlugField(max_length=255)
 
     image_one = models.ImageField(upload_to='door_photos/', blank=False, null=False)
     image_two = models.ImageField(upload_to='door_photos/', blank=True, null=True)
@@ -74,10 +87,11 @@ class Door(models.Model):
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
+
 class FilterValue(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    label = models.CharField(max_length=255)
-    value = models.SlugField(max_length=255, unique=True, db_index=True)
+    name = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=255)
     filter = models.ForeignKey("Filter", on_delete=models.CASCADE)
 
     class Meta:
@@ -89,17 +103,19 @@ class FilterValue(models.Model):
         :return: A string representation of the object.
         :rtype: str
         """
-        return self.label
+        return self.name
 
     def save(self, *args, **kwargs):
-        if not self.value:
-            self.value = slugify(self.label)
+        if not self.slug:
+            self.value = slugify(self.name)
         super().save(*args, **kwargs)
+
 
 class Filter(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
-    value = models.SlugField(max_length=255, unique=True, db_index=True)
+    slug = models.SlugField(max_length=255, unique=True, db_index=True)
+
 
     class Meta:
         verbose_name_plural = "Фильтры"
@@ -113,6 +129,6 @@ class Filter(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
-        if not self.value:
-            self.value = slugify(self.name)
+        if not self.slug:
+            self.slug = slugify(self.name)
         super().save(*args, **kwargs)

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Door, Feature, FeatureCategory
+from .models import Door, Feature, FeatureCategory, Filter, FilterValue
 
 
 class DoorAdmin(admin.ModelAdmin):
@@ -9,12 +9,27 @@ class DoorAdmin(admin.ModelAdmin):
 
 class FeatureAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'value', 'feature_category')
+    prepopulated_fields = {'slug': ('name',)}
 
 
 class FeatureCategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'door')
+    prepopulated_fields = {'slug': ('name',)}
+
+
+class FilterAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    prepopulated_fields = {'slug': ('name',)}
+
+
+class FilterValuesAdmin(admin.ModelAdmin):
+    list_display = ('name', 'slug', "filter")
+    prepopulated_fields = {'slug': ('name',)}
 
 
 admin.site.register(Door, DoorAdmin)
 admin.site.register(Feature, FeatureAdmin)
 admin.site.register(FeatureCategory, FeatureCategoryAdmin)
+
+admin.site.register(Filter, FilterAdmin)
+admin.site.register(FilterValue, FilterValuesAdmin)

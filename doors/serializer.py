@@ -25,7 +25,7 @@ class MainPageCatalogSerializer(serializers.ModelSerializer):
 class FeatureSerializer(serializers.ModelSerializer):
     class Meta:
         model = Feature
-        fields = ['id', 'name', 'value']
+        fields = ['id', 'name', 'value', 'slug']
 
 
 class FeatureCategorySerializer(serializers.ModelSerializer):
@@ -33,7 +33,7 @@ class FeatureCategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FeatureCategory
-        fields = ['id', 'name', 'features']
+        fields = ['id', 'name', 'slug', 'features']
 
     def get_features(self, obj):
         return FeatureSerializer(Feature.objects.filter(feature_category=obj), many=True).data
@@ -95,13 +95,18 @@ class DetailViewSerializer(serializers.ModelSerializer):
 
 
 class FilterValueSerializer(serializers.ModelSerializer):
-   class Meta:
-       model = FilterValue
-       fields = ['id', 'label', 'value', 'filter']
+    class Meta:
+        model = FilterValue
+        fields = "__all__"
+
 
 class FilterSerializer(serializers.ModelSerializer):
-   values = FilterValueSerializer(many=True, read_only=True)
+    values = serializers.SerializerMethodField()
 
-   class Meta:
-       model = Filter
-       fields = ['id', 'name', 'value', 'values']
+    class Meta:
+        model = Filter
+        fields = "__all__"
+
+
+    def get_values(self, obj):
+        return FilterValueSerializer(FilterValue.objects.filter(filter=obj), many=True).data
