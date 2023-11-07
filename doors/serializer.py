@@ -25,7 +25,7 @@ class MainPageCatalogSerializer(serializers.ModelSerializer):
 class FeatureSerializer(serializers.ModelSerializer):
     class Meta:
         model = Feature
-        fields = ['id', 'name', 'value', 'slug']
+        fields = "__all__"
 
 
 class FeatureCategorySerializer(serializers.ModelSerializer):
@@ -33,7 +33,7 @@ class FeatureCategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FeatureCategory
-        fields = ['id', 'name', 'slug', 'features']
+        fields = "__all__"
 
     def get_features(self, obj):
         return FeatureSerializer(Feature.objects.filter(feature_category=obj), many=True).data

@@ -8,7 +8,8 @@ class Feature(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=200)
     value = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=255)
+    name_slug = models.SlugField(max_length=255)
+    value_slug = models.SlugField(max_length=255)
     feature_category = models.ForeignKey("FeatureCategory", on_delete=models.CASCADE)
 
     class Meta:
@@ -23,8 +24,10 @@ class Feature(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
-        if not self.slug:
+        if not self.name_slug:
             self.slug = slugify(self.name)
+        if not self.value_slug:
+            self.slug = slugify(self.value)
         super().save(*args, **kwargs)
 
 
@@ -36,7 +39,7 @@ class FeatureCategory(models.Model):
 
 
     class Meta:
-        verbose_name_plural = "Категории характеристик"
+        verbose_name_plural = "Характеристики: категории"
 
     def __str__(self):
         """
@@ -95,7 +98,7 @@ class FilterValue(models.Model):
     filter = models.ForeignKey("Filter", on_delete=models.CASCADE)
 
     class Meta:
-        verbose_name_plural = "Значения фильтров"
+        verbose_name_plural = "Фильтры: значения"
 
     def __str__(self):
         """

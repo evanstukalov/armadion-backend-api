@@ -9,7 +9,7 @@ class DoorAdmin(admin.ModelAdmin):
 
 class FeatureAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'value', 'feature_category')
-    prepopulated_fields = {'slug': ('name',)}
+    prepopulated_fields = {'name_slug': ('name',), 'value_slug': ('value',)}
 
 
 class FeatureCategoryAdmin(admin.ModelAdmin):
