@@ -1,8 +1,10 @@
 import logging
 
+from django.db.models import Max, Min
+
 from doors.models import Door, Filter, Feature
 from doors.serializer import MainPageCatalogSerializer, DetailViewSerializer, ListViewSerializer, FilterSerializer, \
-    DoorFiltersSerializer
+    DoorFiltersSerializer, DynamicFilterSerializer
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework import filters
 from rest_framework import generics
@@ -55,7 +57,7 @@ class ListFiltersAPIView(generics.ListAPIView):
     serializer_class = FilterSerializer
 
 
-class DoorFiltersView(generics.ListAPIView):
+class DoorsFiltersAPIView(generics.ListAPIView):
     """
     API View for the list page that provides doors and filters list.
     """
@@ -111,8 +113,8 @@ class DoorFiltersView(generics.ListAPIView):
         limit = int(request.query_params.get('limit', 10))  # default limit to 10 if not provided
         offset = int(request.query_params.get('offset', 0))  # default offset to 0 if not provided
 
+        prices = self.get_queryset().aggregate(Max('price'), Min('price'))
         doors = self.get_queryset()[offset:offset + limit]
-        logger.warning(f'doors: {doors}')
 
         filters = self.get_filter_queryset()
 
@@ -120,13 +122,14 @@ class DoorFiltersView(generics.ListAPIView):
 
         context = {'doors': doors}
 
-        # doors = doors
-
         door_serializer = DoorFiltersSerializer(doors, many=True)
 
-        filter_serializer = FilterSerializer(filters, many=True, context=context)
+        filter_serializer = DynamicFilterSerializer(filters, many=True, context=context)
+
+
 
         return Response({
             'doors': door_serializer.data,
-            'filters': filter_serializer.data
+            'filters': filter_serializer.data,
+            'prices': {'max_price': str(prices['price__max']), 'min_price': str(prices['price__min'])}
         })

@@ -6,7 +6,6 @@ todo
 debug.log
 .mypy_cache
 
-doors/migrations
 contactform/migrations
 
 .env

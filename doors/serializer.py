@@ -1,5 +1,6 @@
 import logging
 
+from django.db.models import Max, Min
 from rest_framework import serializers
 
 from doors.models import Door, FeatureCategory, Feature, FilterValue, Filter
@@ -98,6 +99,20 @@ class DetailViewSerializer(serializers.ModelSerializer):
         similar_doors_sorted = sorted(similar_doors, key=lambda p: is_similar(door, p), reverse=True)[:3]
         return MainPageCatalogSerializer(similar_doors_sorted, many=True).data
 
+class FilterSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the filters for filters/ API
+    """
+    values = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Filter
+        fields = ['name', 'slug', 'values']
+
+
+    def get_values(self, obj):
+        queryset = FilterValue.objects.filter(filter=obj)
+        return FilterValueSerializer(queryset, many=True).data
 
 class FilterValueSerializer(serializers.ModelSerializer):
     class Meta:
@@ -105,7 +120,10 @@ class FilterValueSerializer(serializers.ModelSerializer):
         fields = ['name', 'slug']
 
 
-class FilterSerializer(serializers.ModelSerializer):
+class DynamicFilterSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the dynamic filters for doors/filter API
+    """
     values = serializers.SerializerMethodField()
 
     class Meta:
@@ -133,6 +151,9 @@ class FilterSerializer(serializers.ModelSerializer):
 
 
 class DoorFiltersSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the doors for doors/filter API
+    """
     feature_categories = serializers.SerializerMethodField()
 
     class Meta:
