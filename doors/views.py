@@ -61,6 +61,9 @@ class DoorFiltersView(generics.ListAPIView):
     """
 
     def get_filter_queryset(self):
+        """
+        Get queryset for filters
+        """
         queryset = Filter.objects.all()
         logger.warning(f'filter: {queryset}')
         doors = self.get_queryset().prefetch_related('feature_categories__features')
