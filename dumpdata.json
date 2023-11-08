@@ -1,0 +1,259 @@
+[
+  {
+    "model": "doors.feature",
+    "pk": "1731d149-50ae-4e26-a06d-b30a7ae3b993",
+    "fields": {
+      "name": "Габаритные размеры (В*Ш*Г), мм",
+      "value": "2100*1000*90",
+      "name_slug": "gabaritnye-razmery-vshg-mm",
+      "value_slug": "2100-1000-90",
+      "feature_category": "f0c39180-a667-48c7-b4d4-9f76c46ebe1b"
+    }
+  },
+  {
+    "model": "doors.feature",
+    "pk": "7eb54a0e-0770-4571-a37a-b19ee4721877",
+    "fields": {
+      "name": "Габаритные размеры (В*Ш*Г), мм",
+      "value": "2100*1000*95",
+      "name_slug": "gabaritnye-razmery-vshg-mm",
+      "value_slug": "2100-1000-95",
+      "feature_category": "d182cb16-b51f-4f8e-b96a-814abd6d4870"
+    }
+  },
+  {
+    "model": "doors.feature",
+    "pk": "a000fea0-5fa7-4ddb-ab84-8240432fc65c",
+    "fields": {
+      "name": "Модель внешней отделки",
+      "value": "хуярда",
+      "name_slug": "model-vneshnej-otdelki",
+      "value_slug": "huerda",
+      "feature_category": "4a25f25b-baed-4711-a286-fd3b3eb1c1a7"
+    }
+  },
+  {
+    "model": "doors.feature",
+    "pk": "b1cdcfb0-2bc8-4740-9ba9-143672566b60",
+    "fields": {
+      "name": "Габаритные размеры (В*Ш*Г), мм",
+      "value": "2100*1000*90",
+      "name_slug": "gabaritnye-razmery-vshg-mm",
+      "value_slug": "2100-1000-95",
+      "feature_category": "156050c3-5263-4ad1-ac03-ca1debda3258"
+    }
+  },
+  {
+    "model": "doors.feature",
+    "pk": "eb0a6621-8f38-488f-ac70-5cec04b483b3",
+    "fields": {
+      "name": "Модель внешней отделки",
+      "value": "качерга",
+      "name_slug": "model-vneshnej-otdelki",
+      "value_slug": "kacherga",
+      "feature_category": "a113b129-3b0c-4a89-9505-7898e46c0c73"
+    }
+  },
+  {
+    "model": "doors.feature",
+    "pk": "f3c00da2-3c12-42fa-801f-14d04b88194e",
+    "fields": {
+      "name": "Модель внешней отделки",
+      "value": "Гарда",
+      "name_slug": "model-vneshnej-otdelki",
+      "value_slug": "garda",
+      "feature_category": "576ec38e-eda0-4c62-8ce7-6154d157adc5"
+    }
+  },
+  {
+    "model": "doors.featurecategory",
+    "pk": "156050c3-5263-4ad1-ac03-ca1debda3258",
+    "fields": {
+      "name": "Характеристики",
+      "slug": "harakteristiki",
+      "door": "84a1091c-a7b2-4e86-b6c4-916987032ecc"
+    }
+  },
+  {
+    "model": "doors.featurecategory",
+    "pk": "4a25f25b-baed-4711-a286-fd3b3eb1c1a7",
+    "fields": {
+      "name": "Внешняя отделка",
+      "slug": "vneshnyaya-otdelka",
+      "door": "b200e3ac-443b-425b-92d4-282ac8aa2dae"
+    }
+  },
+  {
+    "model": "doors.featurecategory",
+    "pk": "576ec38e-eda0-4c62-8ce7-6154d157adc5",
+    "fields": {
+      "name": "Внешняя отделка",
+      "slug": "vneshnyaya-otdelka",
+      "door": "84a1091c-a7b2-4e86-b6c4-916987032ecc"
+    }
+  },
+  {
+    "model": "doors.featurecategory",
+    "pk": "a113b129-3b0c-4a89-9505-7898e46c0c73",
+    "fields": {
+      "name": "Внешняя отделка",
+      "slug": "vneshnyaya-otdelka",
+      "door": "8abadf61-0b96-4d7c-ba65-d59b00864f3b"
+    }
+  },
+  {
+    "model": "doors.featurecategory",
+    "pk": "d182cb16-b51f-4f8e-b96a-814abd6d4870",
+    "fields": {
+      "name": "Характеристики",
+      "slug": "harakteristiki",
+      "door": "8abadf61-0b96-4d7c-ba65-d59b00864f3b"
+    }
+  },
+  {
+    "model": "doors.featurecategory",
+    "pk": "f0c39180-a667-48c7-b4d4-9f76c46ebe1b",
+    "fields": {
+      "name": "Характеристики",
+      "slug": "harakteristiki",
+      "door": "b200e3ac-443b-425b-92d4-282ac8aa2dae"
+    }
+  },
+  {
+    "model": "doors.door",
+    "pk": "84a1091c-a7b2-4e86-b6c4-916987032ecc",
+    "fields": {
+      "title": "дверь",
+      "article": null,
+      "click_counter": 0,
+      "in_stock": false,
+      "slug": "dver",
+      "image_one": "door_photos/dver-porto-shagren-vishnya-chernoe-serebro-1-280x560.jpg",
+      "image_two": "",
+      "image_three": "",
+      "image_four": "",
+      "price": "10000.00",
+      "description": "",
+      "delivery": "",
+      "payment": "",
+      "safeguards": ""
+    }
+  },
+  {
+    "model": "doors.door",
+    "pk": "8abadf61-0b96-4d7c-ba65-d59b00864f3b",
+    "fields": {
+      "title": "дверь3",
+      "article": null,
+      "click_counter": 0,
+      "in_stock": false,
+      "slug": "dver3",
+      "image_one": "door_photos/dver-porto-shagren-vishnya-chernoe-serebro-1-280x560.jpg",
+      "image_two": "",
+      "image_three": "",
+      "image_four": "",
+      "price": "45000.00",
+      "description": "",
+      "delivery": "",
+      "payment": "",
+      "safeguards": ""
+    }
+  },
+  {
+    "model": "doors.door",
+    "pk": "b200e3ac-443b-425b-92d4-282ac8aa2dae",
+    "fields": {
+      "title": "дверь2",
+      "article": null,
+      "click_counter": 0,
+      "in_stock": false,
+      "slug": "dver2",
+      "image_one": "door_photos/dver-porto-shagren-vishnya-chernoe-serebro-1-280x560.jpg",
+      "image_two": "",
+      "image_three": "",
+      "image_four": "",
+      "price": "15000.00",
+      "description": "",
+      "delivery": "",
+      "payment": "",
+      "safeguards": ""
+    }
+  },
+  {
+    "model": "doors.filtervalue",
+    "pk": "4f4aa6dc-bbbb-4406-b370-1ec7ff152194",
+    "fields": {
+      "name": "хуерда",
+      "slug": "huerda",
+      "filter": "1499319a-e78f-4c9d-9700-ab7979ce7f43"
+    }
+  },
+  {
+    "model": "doors.filtervalue",
+    "pk": "9fc06fb3-fb9b-4113-acf9-be0611d9ce44",
+    "fields": {
+      "name": "качерга",
+      "slug": "kacherga",
+      "filter": "1499319a-e78f-4c9d-9700-ab7979ce7f43"
+    }
+  },
+  {
+    "model": "doors.filtervalue",
+    "pk": "b1578081-be66-4f48-89a4-132b631f5eb5",
+    "fields": {
+      "name": "Гарда",
+      "slug": "garda",
+      "filter": "1499319a-e78f-4c9d-9700-ab7979ce7f43"
+    }
+  },
+  {
+    "model": "doors.filtervalue",
+    "pk": "c306f789-85d4-4ce0-b248-5e0f46ed584f",
+    "fields": {
+      "name": "2100-1000-95",
+      "slug": "2100-1000-95",
+      "filter": "9cbd4fcb-6f9c-4e2e-ab13-540daf36427f"
+    }
+  },
+  {
+    "model": "doors.filtervalue",
+    "pk": "cc9c5eeb-542f-479f-a39f-3cc2bf4d4008",
+    "fields": {
+      "name": "2100-1000-90",
+      "slug": "2100-1000-90",
+      "filter": "9cbd4fcb-6f9c-4e2e-ab13-540daf36427f"
+    }
+  },
+  {
+    "model": "doors.filter",
+    "pk": "1499319a-e78f-4c9d-9700-ab7979ce7f43",
+    "fields": {
+      "name": "Модель внешней отделки",
+      "slug": "model-vneshnej-otdelki"
+    }
+  },
+  {
+    "model": "doors.filter",
+    "pk": "372cd25e-f839-4719-8bf0-4ba8381ce68d",
+    "fields": {
+      "name": "max_price",
+      "slug": "max_price"
+    }
+  },
+  {
+    "model": "doors.filter",
+    "pk": "9cbd4fcb-6f9c-4e2e-ab13-540daf36427f",
+    "fields": {
+      "name": "Габаритные размеры (В*Ш*Г), мм",
+      "slug": "gabaritnye-razmery-vshg-mm"
+    }
+  },
+  {
+    "model": "doors.filter",
+    "pk": "f7a897e6-2d01-4948-8c85-52f1124852cb",
+    "fields": {
+      "name": "min_price",
+      "slug": "min_price"
+    }
+  }
+]
