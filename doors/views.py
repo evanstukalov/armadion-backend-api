@@ -1,9 +1,11 @@
 import logging
 
 from django.core.exceptions import FieldError
+from django.db.models import Prefetch, F
 
-from doors.models import Door, Filter
-from doors.serializer import MainPageCatalogSerializer, DetailViewSerializer, ListViewSerializer, FilterSerializer
+from doors.models import Door, Filter, Feature, FilterValue
+from doors.serializer import MainPageCatalogSerializer, DetailViewSerializer, ListViewSerializer, FilterSerializer, \
+    DoorFiltersSerializer, FilterValueSerializer
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework import filters
 from rest_framework import generics
@@ -61,11 +63,20 @@ class DoorFiltersView(generics.ListAPIView):
     API View for the list page that provides doors and filters list.
     """
 
+
     def get_filter_queryset(self):
-        """
-        Get queryset for filters.
-        """
         queryset = Filter.objects.all()
+        logger.warning(f'filter: {queryset}')
+        doors = self.get_queryset()
+        logger.warning(f'doors: {doors}')
+        # Create a list of slugs that exist in the doors queryset
+        slugs_in_doors = doors.values_list('feature_categories__features__value_slug', flat=True)
+
+        logger.warning(f'slugs_in_doors: {slugs_in_doors}')
+        # Exclude the Filter objects from the queryset
+        queryset = queryset.filter(filter_values__slug__in=slugs_in_doors).distinct()
+
+        logger.warning(f'filter_queryset: {queryset}')
 
         return queryset
 
@@ -77,9 +88,7 @@ class DoorFiltersView(generics.ListAPIView):
 
         for key, value in self.request.query_params.items():
             if key is not None:
-                logger.warning(f"{key:} {value}")
                 match key:
-
                     case 'min_price':
                         queryset = queryset.filter(price__gte=value)
 
@@ -87,22 +96,24 @@ class DoorFiltersView(generics.ListAPIView):
                         queryset = queryset.filter(price__lte=value)
 
                     case _:
-                        logger.warning('else statement')
-                        queryset = queryset.filter(**{key: value})
-
-                logger.warning(f"{key:} {value}")
+                        queryset = queryset.prefetch_related('feature_categories__features').filter(feature_categories__features__value_slug=value)
 
         return queryset
 
-    def get(self, request, *args, **kwargs):
-        filters = self.get_filter_queryset()
-        doors = self.get_queryset()
-        # TODO: add pagination for doors
 
-        filter_serializer = FilterSerializer(filters, many=True)
-        door_serializer = DetailViewSerializer(doors, many=True)
+    def get(self, request, *args, **kwargs):
+
+        doors = self.get_queryset()
+        filters = self.get_filter_queryset()
+
+        context = {'doors': doors}
+
+        door_serializer = DoorFiltersSerializer(doors, many=True)
+        filter_serializer = FilterSerializer(filters, many=True, context=context)
+
 
         return Response({
             'doors': door_serializer.data,
-            'filters': filter_serializer.data,
+            'filters': filter_serializer.data
         })
+

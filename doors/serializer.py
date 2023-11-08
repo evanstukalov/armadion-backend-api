@@ -1,6 +1,10 @@
+import logging
+
 from rest_framework import serializers
+
 from doors.models import Door, FeatureCategory, Feature, FilterValue, Filter
 
+logger = logging.getLogger(__name__)
 
 def is_similar(product1: Door, product2: Door) -> bool:
     """
@@ -25,7 +29,7 @@ class MainPageCatalogSerializer(serializers.ModelSerializer):
 class FeatureSerializer(serializers.ModelSerializer):
     class Meta:
         model = Feature
-        fields = "__all__"
+        fields = ['name', 'value', 'name_slug', 'value_slug']
 
 
 class FeatureCategorySerializer(serializers.ModelSerializer):
@@ -33,7 +37,7 @@ class FeatureCategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FeatureCategory
-        fields = "__all__"
+        fields = ['name', 'slug', 'features']
 
     def get_features(self, obj):
         return FeatureSerializer(Feature.objects.filter(feature_category=obj), many=True).data
@@ -97,7 +101,7 @@ class DetailViewSerializer(serializers.ModelSerializer):
 class FilterValueSerializer(serializers.ModelSerializer):
     class Meta:
         model = FilterValue
-        fields = "__all__"
+        fields = ['name', 'slug']
 
 
 class FilterSerializer(serializers.ModelSerializer):
@@ -105,8 +109,41 @@ class FilterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Filter
-        fields = "__all__"
-
+        fields = ['name', 'slug', 'values']
 
     def get_values(self, obj):
-        return FilterValueSerializer(FilterValue.objects.filter(filter=obj), many=True).data
+        queryset = FilterValue.objects.all()
+        logger.warning('<==================')
+        logger.warning(obj)
+        logger.warning(f'filter_values: {queryset}')
+
+        doors = self.context.get("doors")
+        logger.warning(f'doors: {doors}')
+
+        # Create a list of slugs that exist in the doors queryset
+        slugs_in_doors = doors.values_list('feature_categories__features__value_slug', flat=True)
+        logger.warning(f'slugs_in_doors: {slugs_in_doors}')
+
+        # Exclude the Filter objects from the queryset
+        queryset = queryset.filter(slug__in=slugs_in_doors).filter(filter=obj)
+        logger.warning(f'filter_values queryset: {queryset}')
+        logger.warning('==================>')
+
+        return FilterValueSerializer(queryset, many=True).data
+
+
+class DoorFiltersSerializer(serializers.ModelSerializer):
+    feature_categories = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Door
+        fields = [
+            'id',
+            'title',
+            'price',
+            'feature_categories',
+        ]
+
+    def get_feature_categories(self, obj):
+        return FeatureCategorySerializer(FeatureCategory.objects.filter(door=obj), many=True).data
+

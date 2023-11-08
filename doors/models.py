@@ -10,7 +10,7 @@ class Feature(models.Model):
     value = models.CharField(max_length=200)
     name_slug = models.SlugField(max_length=255)
     value_slug = models.SlugField(max_length=255)
-    feature_category = models.ForeignKey("FeatureCategory", on_delete=models.CASCADE)
+    feature_category = models.ForeignKey("FeatureCategory", on_delete=models.CASCADE, related_name="features")
 
     class Meta:
         verbose_name_plural = "Характеристики"
@@ -35,7 +35,7 @@ class FeatureCategory(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=255)
-    door = models.ForeignKey("Door", on_delete=models.CASCADE)
+    door = models.ForeignKey("Door", on_delete=models.CASCADE, related_name='feature_categories')
 
 
     class Meta:
@@ -95,7 +95,7 @@ class FilterValue(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255)
-    filter = models.ForeignKey("Filter", on_delete=models.CASCADE)
+    filter = models.ForeignKey("Filter", on_delete=models.CASCADE, related_name='filter_values')
 
     class Meta:
         verbose_name_plural = "Фильтры: значения"
@@ -117,7 +117,7 @@ class FilterValue(models.Model):
 class Filter(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255, unique=True, db_index=True)
+    slug = models.SlugField(max_length=255)
 
 
     class Meta:
