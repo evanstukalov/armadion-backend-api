@@ -6,6 +6,7 @@ from doors.models import Door, FeatureCategory, Feature, FilterValue, Filter
 
 logger = logging.getLogger(__name__)
 
+
 def is_similar(product1: Door, product2: Door) -> bool:
     """
     Check if two products are similar
@@ -117,15 +118,14 @@ class FilterSerializer(serializers.ModelSerializer):
         logger.warning(obj)
         logger.warning(f'filter_values: {queryset}')
 
-        doors = self.context.get("doors")
+        doors = self.context.get("doors").prefetch_related('feature_categories__features')
         logger.warning(f'doors: {doors}')
 
-        # Create a list of slugs that exist in the doors queryset
-        slugs_in_doors = doors.values_list('feature_categories__features__value_slug', flat=True)
-        logger.warning(f'slugs_in_doors: {slugs_in_doors}')
+        value_slugs = Feature.objects.filter(feature_category__door__in=doors).values_list('value_slug', flat=True)
+        logger.warning(f'value_slugs: {value_slugs}')
 
         # Exclude the Filter objects from the queryset
-        queryset = queryset.filter(slug__in=slugs_in_doors).filter(filter=obj)
+        queryset = queryset.filter(slug__in=value_slugs).filter(filter=obj)
         logger.warning(f'filter_values queryset: {queryset}')
         logger.warning('==================>')
 
@@ -146,4 +146,3 @@ class DoorFiltersSerializer(serializers.ModelSerializer):
 
     def get_feature_categories(self, obj):
         return FeatureCategorySerializer(FeatureCategory.objects.filter(door=obj), many=True).data
-

@@ -1,11 +1,8 @@
 import logging
 
-from django.core.exceptions import FieldError
-from django.db.models import Prefetch, F
-
-from doors.models import Door, Filter, Feature, FilterValue
+from doors.models import Door, Filter, Feature
 from doors.serializer import MainPageCatalogSerializer, DetailViewSerializer, ListViewSerializer, FilterSerializer, \
-    DoorFiltersSerializer, FilterValueSerializer
+    DoorFiltersSerializer
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework import filters
 from rest_framework import generics
@@ -63,18 +60,17 @@ class DoorFiltersView(generics.ListAPIView):
     API View for the list page that provides doors and filters list.
     """
 
-
     def get_filter_queryset(self):
         queryset = Filter.objects.all()
         logger.warning(f'filter: {queryset}')
-        doors = self.get_queryset()
+        doors = self.get_queryset().prefetch_related('feature_categories__features')
         logger.warning(f'doors: {doors}')
-        # Create a list of slugs that exist in the doors queryset
-        slugs_in_doors = doors.values_list('feature_categories__features__value_slug', flat=True)
 
-        logger.warning(f'slugs_in_doors: {slugs_in_doors}')
+        value_slugs = Feature.objects.filter(feature_category__door__in=doors).values_list('value_slug', flat=True)
+        logger.warning(f'value_slugs: {value_slugs}')
+
         # Exclude the Filter objects from the queryset
-        queryset = queryset.filter(filter_values__slug__in=slugs_in_doors).distinct()
+        queryset = queryset.filter(filter_values__slug__in=value_slugs).distinct()
 
         logger.warning(f'filter_queryset: {queryset}')
 
@@ -95,25 +91,39 @@ class DoorFiltersView(generics.ListAPIView):
                     case 'max_price':
                         queryset = queryset.filter(price__lte=value)
 
+                    case 'limit':
+                        pass
+
+                    case 'offset':
+                        pass
+
                     case _:
-                        queryset = queryset.prefetch_related('feature_categories__features').filter(feature_categories__features__value_slug=value)
+                        queryset = queryset.prefetch_related('feature_categories__features').filter(
+                            feature_categories__features__value_slug=value)
 
         return queryset
 
-
     def get(self, request, *args, **kwargs):
 
-        doors = self.get_queryset()
+        limit = int(request.query_params.get('limit', 10))  # default limit to 10 if not provided
+        offset = int(request.query_params.get('offset', 0))  # default offset to 0 if not provided
+
+        doors = self.get_queryset()[offset:offset + limit]
+        logger.warning(f'doors: {doors}')
+
         filters = self.get_filter_queryset()
+
+        logger.warning(f'filters: {filters}')
 
         context = {'doors': doors}
 
-        door_serializer = DoorFiltersSerializer(doors, many=True)
-        filter_serializer = FilterSerializer(filters, many=True, context=context)
+        # doors = doors
 
+        door_serializer = DoorFiltersSerializer(doors, many=True)
+
+        filter_serializer = FilterSerializer(filters, many=True, context=context)
 
         return Response({
             'doors': door_serializer.data,
             'filters': filter_serializer.data
         })
-

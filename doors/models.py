@@ -37,7 +37,6 @@ class FeatureCategory(models.Model):
     slug = models.SlugField(max_length=255)
     door = models.ForeignKey("Door", on_delete=models.CASCADE, related_name='feature_categories')
 
-
     class Meta:
         verbose_name_plural = "Характеристики: категории"
 
@@ -118,7 +117,6 @@ class Filter(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255)
-
 
     class Meta:
         verbose_name_plural = "Фильтры"
