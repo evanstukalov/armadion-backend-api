@@ -3,6 +3,11 @@ import uuid
 from django.db import models
 from django.utils.text import slugify
 
+FILTER_TYPE_CHOICES = [
+    ('price_filter', 'Фильтр по цене'),
+    ('category_filter', 'Фильтр по категории'),
+    ('limitoffset_filter', 'Пагинация'),
+]
 
 class Feature(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -117,6 +122,7 @@ class Filter(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255)
+    type = models.CharField(max_length=255, choices=FILTER_TYPE_CHOICES, default=FILTER_TYPE_CHOICES[1][0])
 
     class Meta:
         verbose_name_plural = "Фильтры"

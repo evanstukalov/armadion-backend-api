@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'drf_yasg',  # for swagger documentation
     'corsheaders',
     'django_filters',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -62,6 +63,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'armadion.urls'
@@ -117,7 +119,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -151,6 +152,15 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:1337",
     "http://185.244.51.158:80",
 ]
+# For debug toolbar
+INTERNAL_IPS = [
+    '127.0.0.1',
+    '0.0.0.0',
+]
+# For debug toolbar
+DEBUG_TOOLBAR_CONFIG = {
+    "SHOW_TOOLBAR_CALLBACK": lambda request: True,
+}
 
 CORS_EXPOSE_HEADERS = ['Content-Type', 'X-CSRFToken']
 CORS_ALLOW_CREDENTIALS = True

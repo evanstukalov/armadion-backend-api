@@ -1,4 +1,6 @@
+from django.db import connection
 import logging
+from decimal import Decimal
 
 from django.db.models import Max, Min
 
@@ -74,7 +76,6 @@ class DoorsFiltersAPIView(generics.ListAPIView):
         value_slugs = Feature.objects.filter(feature_category__door__in=doors).values_list('value_slug', flat=True)
         logger.warning(f'value_slugs: {value_slugs}')
 
-        # Exclude the Filter objects from the queryset
         queryset = queryset.filter(filter_values__slug__in=value_slugs).distinct()
 
         logger.warning(f'filter_queryset: {queryset}')
@@ -85,36 +86,33 @@ class DoorsFiltersAPIView(generics.ListAPIView):
         """
         Get queryset for doors.
         """
-        queryset = Door.objects.all()
+        filters = {filter.slug: filter.type for filter in Filter.objects.all()}
+        queryset = Door.objects.all().prefetch_related('feature_categories__features')
 
         for key, value in self.request.query_params.items():
             if key is not None:
-                match key:
-                    case 'min_price':
-                        queryset = queryset.filter(price__gte=value)
-
-                    case 'max_price':
-                        queryset = queryset.filter(price__lte=value)
-
-                    case 'limit':
-                        pass
-
-                    case 'offset':
-                        pass
-
-                    case _:
-                        queryset = queryset.prefetch_related('feature_categories__features').filter(
-                            feature_categories__features__value_slug=value)
+                values = value.split(',')
+                logger.warning(f'key, value: {key, value}')
+                filter_type = filters.get(key)
+                logger.warning(f'type: {filter_type}')
+                match filter_type:
+                    case 'category_filter':
+                        queryset = queryset.filter(
+                            feature_categories__features__value_slug__in=values)
+                    case 'price_filter':
+                        logger.warning(f'price filter: {value}')
+                        min_price, max_price = map(Decimal, value.split(','))
+                        queryset = queryset.filter(price__gte=min_price, price__lte=max_price)
 
         return queryset
 
     def get(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        prices = queryset.aggregate(Max('price'), Min('price'))
 
-        limit = int(request.query_params.get('limit', 10))  # default limit to 10 if not provided
-        offset = int(request.query_params.get('offset', 0))  # default offset to 0 if not provided
-
-        prices = self.get_queryset().aggregate(Max('price'), Min('price'))
-        doors = self.get_queryset()[offset:offset + limit]
+        limit = int(request.query_params.get('limit', 10))
+        offset = int(request.query_params.get('offset', 0))
+        doors = queryset[offset:offset + limit]
 
         filters = self.get_filter_queryset()
 
@@ -126,10 +124,24 @@ class DoorsFiltersAPIView(generics.ListAPIView):
 
         filter_serializer = DynamicFilterSerializer(filters, many=True, context=context)
 
-
-
         return Response({
             'doors': door_serializer.data,
-            'filters': filter_serializer.data,
-            'prices': {'max_price': str(prices['price__max']), 'min_price': str(prices['price__min'])}
-        })
+            'filters': (filter_serializer.data + [
+                {
+                    'name': 'Цена',
+                    'slug': 'price_filter',
+                    'values': [
+                        {
+                            'name': 'Минимальная цена',
+                            'slug': 'min_price',
+                            'value': prices['price__min']
+                        },
+                        {
+                            'name': 'Максимальная цена',
+                            'slug': 'max_price',
+                            'value': prices['price__max']
+                        }
+                    ]
+                }
+            ]
+        )})

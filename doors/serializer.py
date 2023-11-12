@@ -132,20 +132,13 @@ class DynamicFilterSerializer(serializers.ModelSerializer):
 
     def get_values(self, obj):
         queryset = FilterValue.objects.all()
-        logger.warning('<==================')
-        logger.warning(obj)
-        logger.warning(f'filter_values: {queryset}')
 
         doors = self.context.get("doors").prefetch_related('feature_categories__features')
-        logger.warning(f'doors: {doors}')
 
         value_slugs = Feature.objects.filter(feature_category__door__in=doors).values_list('value_slug', flat=True)
-        logger.warning(f'value_slugs: {value_slugs}')
 
         # Exclude the Filter objects from the queryset
         queryset = queryset.filter(slug__in=value_slugs).filter(filter=obj)
-        logger.warning(f'filter_values queryset: {queryset}')
-        logger.warning('==================>')
 
         return FilterValueSerializer(queryset, many=True).data
 
