@@ -111,8 +111,7 @@ class FilterSerializer(serializers.ModelSerializer):
 
 
     def get_values(self, obj):
-        queryset = FilterValue.objects.filter(filter=obj)
-        return FilterValueSerializer(queryset, many=True).data
+        return FilterValueSerializer(obj.filter_values.all(), many=True).data
 
 class FilterValueSerializer(serializers.ModelSerializer):
     class Meta:
