@@ -11,8 +11,12 @@ from rest_framework.pagination import LimitOffsetPagination
 from rest_framework import filters
 from rest_framework import generics
 from rest_framework.response import Response
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
+from rest_framework import status
 
 logger = logging.getLogger(__name__)
+
 
 
 class MainPageDoorsAPIView(generics.ListAPIView):
@@ -25,6 +29,10 @@ class MainPageDoorsAPIView(generics.ListAPIView):
     filter_backends = [filters.OrderingFilter]
     ordering_fields = ['click_counter']
 
+    @method_decorator(cache_page(60 * 60))
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
 
 class ListViewDoorsAPIView(generics.ListAPIView):
     """
@@ -32,6 +40,10 @@ class ListViewDoorsAPIView(generics.ListAPIView):
     """
     queryset = Door.objects.all()
     serializer_class = ListViewSerializer
+
+    @method_decorator(cache_page(60 * 60))
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
 
 
 class DetailViewDoorsAPIView(generics.RetrieveAPIView):
@@ -41,6 +53,7 @@ class DetailViewDoorsAPIView(generics.RetrieveAPIView):
     queryset = Door.objects.all()
     serializer_class = DetailViewSerializer
 
+    @method_decorator(cache_page(60 * 60))
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         is_allowed_counter = self.request.GET.get('is_allowed_counter')
@@ -58,8 +71,11 @@ class ListFiltersAPIView(generics.ListAPIView):
     queryset = Filter.objects.all()
     serializer_class = FilterSerializer
 
+    @method_decorator(cache_page(60 * 60))
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
 
-logger = logging.getLogger(__name__)
+
 
 class DoorsFiltersAPIView(generics.ListAPIView):
     """
@@ -107,6 +123,7 @@ class DoorsFiltersAPIView(generics.ListAPIView):
 
         return queryset
 
+    @method_decorator(cache_page(60 * 60))
     def get(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         prices = queryset.aggregate(Max('price'), Min('price'))
@@ -123,11 +140,7 @@ class DoorsFiltersAPIView(generics.ListAPIView):
 
         door_serializer = DoorFiltersSerializer(doors, many=True)
 
-        filter_serializer = DynamicFilterSerializer(filters, many=True, context=context)
-
-        return Response({
-            'doors': door_serializer.data,
-            'filters': (filter_serializer.data + [
+        filter_serializer_data = DynamicFilterSerializer(filters, many=True, context=context).data + [
                 {
                     'name': 'Цена',
                     'slug': 'price_filter',
@@ -145,4 +158,8 @@ class DoorsFiltersAPIView(generics.ListAPIView):
                     ]
                 }
             ]
-        )})
+
+        return Response({
+            'doors': door_serializer.data,
+            'filters': filter_serializer_data
+        }, status=status.HTTP_200_OK)
