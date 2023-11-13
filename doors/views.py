@@ -1,9 +1,6 @@
-from django.db import connection
 import logging
 from decimal import Decimal
-
 from django.db.models import Max, Min
-
 from doors.models import Door, Filter, Feature
 from doors.serializer import MainPageCatalogSerializer, DetailViewSerializer, ListViewSerializer, FilterSerializer, \
     DoorFiltersSerializer, DynamicFilterSerializer
@@ -16,7 +13,6 @@ from django.utils.decorators import method_decorator
 from rest_framework import status
 
 logger = logging.getLogger(__name__)
-
 
 
 class MainPageDoorsAPIView(generics.ListAPIView):
@@ -74,7 +70,6 @@ class ListFiltersAPIView(generics.ListAPIView):
     @method_decorator(cache_page(60 * 60))
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
-
 
 
 class DoorsFiltersAPIView(generics.ListAPIView):
@@ -141,23 +136,23 @@ class DoorsFiltersAPIView(generics.ListAPIView):
         door_serializer = DoorFiltersSerializer(doors, many=True)
 
         filter_serializer_data = DynamicFilterSerializer(filters, many=True, context=context).data + [
-                {
-                    'name': 'Цена',
-                    'slug': 'price_filter',
-                    'values': [
-                        {
-                            'name': 'Минимальная цена',
-                            'slug': 'min_price',
-                            'value': prices['price__min']
-                        },
-                        {
-                            'name': 'Максимальная цена',
-                            'slug': 'max_price',
-                            'value': prices['price__max']
-                        }
-                    ]
-                }
-            ]
+            {
+                'name': 'Цена',
+                'slug': 'price_filter',
+                'values': [
+                    {
+                        'name': 'Минимальная цена',
+                        'slug': 'min_price',
+                        'value': prices['price__min']
+                    },
+                    {
+                        'name': 'Максимальная цена',
+                        'slug': 'max_price',
+                        'value': prices['price__max']
+                    }
+                ]
+            }
+        ]
 
         return Response({
             'doors': door_serializer.data,
