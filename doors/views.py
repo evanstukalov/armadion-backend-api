@@ -59,6 +59,8 @@ class ListFiltersAPIView(generics.ListAPIView):
     serializer_class = FilterSerializer
 
 
+logger = logging.getLogger(__name__)
+
 class DoorsFiltersAPIView(generics.ListAPIView):
     """
     API View for the list page that provides doors and filters list.
@@ -69,16 +71,16 @@ class DoorsFiltersAPIView(generics.ListAPIView):
         Get queryset for filters
         """
         queryset = Filter.objects.all()
-        logger.warning(f'filter: {queryset}')
+        logger.debug(f'filter: {queryset}')
         doors = self.get_queryset().prefetch_related('feature_categories__features')
-        logger.warning(f'doors: {doors}')
+        logger.debug(f'doors: {doors}')
 
         value_slugs = Feature.objects.filter(feature_category__door__in=doors).values_list('value_slug', flat=True)
-        logger.warning(f'value_slugs: {value_slugs}')
+        logger.debug(f'value_slugs: {value_slugs}')
 
         queryset = queryset.filter(filter_values__slug__in=value_slugs).distinct()
 
-        logger.warning(f'filter_queryset: {queryset}')
+        logger.debug(f'filter_queryset: {queryset}')
 
         return queryset
 
@@ -92,17 +94,16 @@ class DoorsFiltersAPIView(generics.ListAPIView):
         for key, value in self.request.query_params.items():
             if key is not None:
                 values = value.split(',')
-                logger.warning(f'key, value: {key, value}')
+                logger.debug(f'key, value: {key, value}')
                 filter_type = filters.get(key)
-                logger.warning(f'type: {filter_type}')
-                match filter_type:
-                    case 'category_filter':
-                        queryset = queryset.filter(
-                            feature_categories__features__value_slug__in=values)
-                    case 'price_filter':
-                        logger.warning(f'price filter: {value}')
-                        min_price, max_price = map(Decimal, value.split(','))
-                        queryset = queryset.filter(price__gte=min_price, price__lte=max_price)
+                logger.debug(f'type: {filter_type}')
+                if filter_type == 'category_filter':
+                    queryset = queryset.filter(
+                        feature_categories__features__value_slug__in=values)
+                elif filter_type == 'price_filter':
+                    logger.debug(f'price filter: {value}')
+                    min_price, max_price = map(Decimal, value.split(','))
+                    queryset = queryset.filter(price__gte=min_price, price__lte=max_price)
 
         return queryset
 
@@ -116,7 +117,7 @@ class DoorsFiltersAPIView(generics.ListAPIView):
 
         filters = self.get_filter_queryset()
 
-        logger.warning(f'filters: {filters}')
+        logger.debug(f'filters: {filters}')
 
         context = {'doors': doors}
 
