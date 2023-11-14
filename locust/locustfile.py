@@ -1,5 +1,6 @@
 from locust import task, HttpUser
 
+
 class Actions(HttpUser):
     @task(1)
     def doors_popular(self):
