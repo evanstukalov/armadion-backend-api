@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'drf_yasg',  # for swagger documentation
     'corsheaders',
     'django_filters',
-    'debug_toolbar',
+    #'debug_toolbar',
 ]
 
 MIDDLEWARE = [
