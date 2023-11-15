@@ -1,6 +1,6 @@
 import logging
 from rest_framework import serializers
-from doors.models import Door, FeatureCategory, Feature, FilterValue, Filter
+from doors.models import Door, FeatureCategory, Feature, FilterValue, Filter, Image
 
 logger = logging.getLogger(__name__)
 
@@ -41,25 +41,36 @@ class FeatureCategorySerializer(serializers.ModelSerializer):
     def get_features(self, obj):
         return FeatureSerializer(Feature.objects.filter(feature_category=obj), many=True).data
 
+class ImageSerializer(serializers.ModelSerializer):
+    url = serializers.SerializerMethodField()
+    class Meta:
+        model = Image
+        fields = ['id', 'date_added', 'url', 'mimetype']
+
+    def get_url(self, obj):
+        request = self.context.get('request')
+        if obj.image:
+            return request.build_absolute_uri(obj.image.url)
+        return None
+
 
 class ListViewSerializer(serializers.ModelSerializer):
+    images = serializers.SerializerMethodField()
     class Meta:
         model = Door
         fields = [
             'id',
             'title',
             'price',
-
-            'image_one',
-            'image_two',
-            'image_three',
-            'image_four',
-
+            'images',
             'description',
             'delivery',
             'payment',
             'safeguards',
         ]
+
+    def get_images(self, obj):
+        return ImageSerializer(obj.images.all(),  context={'request': self.context.get('request')}, many=True).data
 
 
 class DetailViewSerializer(serializers.ModelSerializer):

@@ -59,6 +59,15 @@ class DetailViewDoorsAPIView(generics.RetrieveAPIView):
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
 
+    def get_serializer_context(self):
+        """
+        Extra context provided to the serializer class.
+        """
+        context = super().get_serializer_context()
+        context['request'] = self.request
+        return context
+
+
 
 class ListFiltersAPIView(generics.ListAPIView):
     """

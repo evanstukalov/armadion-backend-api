@@ -59,6 +59,15 @@ class FeatureCategory(models.Model):
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
+class Image(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    date_added = models.DateTimeField(auto_now_add=True)
+    image = models.ImageField(upload_to='images/')
+    mimetype = models.CharField(max_length=100)
+    door = models.ForeignKey("Door", on_delete=models.CASCADE, related_name='images')
+
+    class Meta:
+        verbose_name_plural = "Фото"
 
 class Door(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -67,11 +76,6 @@ class Door(models.Model):
     click_counter = models.IntegerField(default=0)
     in_stock = models.BooleanField()
     slug = models.SlugField(max_length=255)
-
-    image_one = models.ImageField(upload_to='door_photos/', blank=False, null=False)
-    image_two = models.ImageField(upload_to='door_photos/', blank=True, null=True)
-    image_three = models.ImageField(upload_to='door_photos/', blank=True, null=True)
-    image_four = models.ImageField(upload_to='door_photos/', blank=True, null=True)
 
     price = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.TextField(blank=True, null=True)

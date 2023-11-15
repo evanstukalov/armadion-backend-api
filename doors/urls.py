@@ -1,5 +1,7 @@
+from django.conf.urls.static import static
 from django.urls import path
 
+from armadion import settings
 from doors.views import MainPageDoorsAPIView, DetailViewDoorsAPIView, ListViewDoorsAPIView, ListFiltersAPIView, \
     DoorsFiltersAPIView
 
@@ -12,3 +14,6 @@ urlpatterns = [
     path('filters/', ListFiltersAPIView.as_view(), name='filter-list'),
 
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
