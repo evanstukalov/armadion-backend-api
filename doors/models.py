@@ -69,6 +69,14 @@ class Image(models.Model):
     class Meta:
         verbose_name_plural = "Фото"
 
+    def __str__(self):
+        """
+        Returns a string representation of the object.
+        :return: A string representation of the object.
+        :rtype: str
+        """
+        return self.door.title
+
 class Door(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=255)

@@ -26,7 +26,10 @@ class FilterValuesAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug', "filter")
     prepopulated_fields = {'slug': ('name',)}
 
-admin.site.register(Image)
+class ImageAdmin(admin.ModelAdmin):
+    list_display = ('door', 'id', 'date_added', 'mimetype')
+
+admin.site.register(Image, ImageAdmin)
 admin.site.register(Door, DoorAdmin)
 admin.site.register(Feature, FeatureAdmin)
 admin.site.register(FeatureCategory, FeatureCategoryAdmin)
