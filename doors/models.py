@@ -62,7 +62,7 @@ class FeatureCategory(models.Model):
 class Image(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     date_added = models.DateTimeField(auto_now_add=True)
-    image = models.ImageField(upload_to='images/')
+    image = models.ImageField(upload_to='mediafiles/doors/')
     mimetype = models.CharField(max_length=100)
     door = models.ForeignKey("Door", on_delete=models.CASCADE, related_name='images')
 
