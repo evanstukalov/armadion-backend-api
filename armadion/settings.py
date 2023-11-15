@@ -63,7 +63,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    #'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'armadion.urls'
@@ -163,14 +163,14 @@ CORS_ALLOWED_ORIGINS = [
     "http://185.244.51.158:80",
 ]
 # For debug toolbar
-INTERNAL_IPS = [
-    '127.0.0.1',
-    '0.0.0.0',
-]
-# For debug toolbar
-DEBUG_TOOLBAR_CONFIG = {
-    "SHOW_TOOLBAR_CALLBACK": lambda request: True,
-}
+#INTERNAL_IPS = [
+#    '127.0.0.1',
+#    '0.0.0.0',
+#]
+## For debug toolbar
+#DEBUG_TOOLBAR_CONFIG = {
+#    "SHOW_TOOLBAR_CALLBACK": lambda request: True,
+#}
 
 CORS_EXPOSE_HEADERS = ['Content-Type', 'X-CSRFToken']
 CORS_ALLOW_CREDENTIALS = True
