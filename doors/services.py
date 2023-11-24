@@ -31,11 +31,13 @@ class DoorFiltersService:
             if key is not None:
                 values = value.split(',')
                 filter_type = filters.get(key)
+                print(filter_type)
                 if filter_type == 'category_filter':
                     queryset = queryset.filter(
                         feature_categories__features__value_slug__in=values)
                 elif filter_type == 'price_filter':
-                    min_price, max_price = map(Decimal, value.split(','))
+                    values = value.split(',')
+                    min_price, max_price = map(Decimal, values)
                     queryset = queryset.filter(price__gte=min_price, price__lte=max_price)
 
         return queryset
