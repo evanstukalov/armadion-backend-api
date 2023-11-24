@@ -12,10 +12,6 @@ class DetailViewDoorsService:
     def count_clicks(request, instance) -> None:
         """
         Service for counting clicks.
-        Args:
-            request:
-            instance:
-
         """
         is_allowed_counter = request.GET.get('is_allowed_counter')
         if is_allowed_counter and is_allowed_counter.lower() == 'true':
@@ -24,6 +20,25 @@ class DetailViewDoorsService:
 
 
 class DoorFiltersService:
+
+    @staticmethod
+    def filter_doors_queryset(request, queryset: QuerySet, filters: dict) -> QuerySet:
+        """
+        Method to filter doors queryset.
+        """
+        for key, value in request.query_params.items():
+            if key is not None:
+                values = value.split(',')
+                filter_type = filters.get(key)
+                if filter_type == 'category_filter':
+                    queryset = queryset.filter(
+                        feature_categories__features__value_slug__in=values)
+                elif filter_type == 'price_filter':
+                    min_price, max_price = map(Decimal, value.split(','))
+                    queryset = queryset.filter(price__gte=min_price, price__lte=max_price)
+
+        return queryset
+
     @staticmethod
     def get_filter_queryset(request) -> QuerySet:
         """
@@ -44,17 +59,7 @@ class DoorFiltersService:
         filters = {filter.slug: filter.type for filter in Filter.objects.all()}
         queryset = Door.objects.all().prefetch_related('feature_categories__features')
 
-        for key, value in request.query_params.items():
-
-            if key is not None:
-                values = value.split(',')
-                filter_type = filters.get(key)
-                if filter_type == 'category_filter':
-                    queryset = queryset.filter(
-                        feature_categories__features__value_slug__in=values)
-                elif filter_type == 'price_filter':
-                    min_price, max_price = map(Decimal, value.split(','))
-                    queryset = queryset.filter(price__gte=min_price, price__lte=max_price)
+        queryset = DoorFiltersService.filter_doors_queryset(request, queryset, filters)
 
         return queryset
 
