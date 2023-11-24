@@ -10,9 +10,6 @@ from rest_framework.response import Response
 from contactform.serializers import ContactFormSerializer
 from contactform.tasks import task_execute
 
-# Get an instance of a logger
-logger = logging.getLogger(__name__)
-
 
 @api_view(['POST'])
 @swagger_auto_schema()
@@ -38,7 +35,6 @@ def contact_form(request: Request) -> Response:
 
     try:
         task_execute(serializer.data)
-        logger.warning(serializer.data)
 
     except Exception as e:
         return Response(str(e), status=status.HTTP_500_INTERNAL_SERVER_ERROR)

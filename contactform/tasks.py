@@ -19,7 +19,6 @@ def task_execute(data: dict) -> None:
         sheet = GoogleSheet("GOOGLE_SHEET_NAME")
 
         sheet.add_new_row(list(data.values()))
-        logger.warning(data)
 
     except Exception as e:
         logger.error(f"An error occurred: {e}")

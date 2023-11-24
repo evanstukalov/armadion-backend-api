@@ -9,8 +9,6 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 from armadion.settings import BASE_DIR, env
 
-logger = logging.getLogger(__name__)
-
 # Take environment variables from .env file
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
@@ -54,7 +52,6 @@ class GoogleSheet:
         # Create a new row by combining the variable number of lists into a single list
         new_row = list(itertools.chain.from_iterable(rows))
 
-        logger.warning(f"{new_row}")
         # Get the index of the last row in the worksheet and increment it by 1 to determine the index of the new row
         last_row_index = self.get_last_row() + 1
         # Insert the new row into the worksheet at the determined index, using the value input option "USER_ENTERED"
