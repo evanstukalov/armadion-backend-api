@@ -27,11 +27,9 @@ class DoorFiltersService:
         Method to filter doors queryset.
         """
         for key, value in request.query_params.items():
-            print(key, value)
             if key is not None:
                 values = value.split(',')
                 filter_type = filters.get(key)
-                print(filter_type)
                 if filter_type == 'category_filter':
                     queryset = queryset.filter(
                         feature_categories__features__value_slug__in=values)
