@@ -6,12 +6,14 @@ todo
 debug.log
 .mypy_cache
 
-contactform/migrations
+db.sqlite3
+
 
 .env
 .env.prod
 .env.prod.db
 credentials.json
+
 
 .pytest_cache
 

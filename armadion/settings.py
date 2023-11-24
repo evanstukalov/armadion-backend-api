@@ -90,21 +90,18 @@ WSGI_APPLICATION = 'armadion.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': env.str("DB_ENGINE", default="django.db.backends.sqlite3"),
-        'NAME': env.str("DB_NAME", default=BASE_DIR / "db.sqlite3"),
-        'USER': env.str("DB_USER", default="user"),
-        'PASSWORD': env.str("DB_PASSWORD", default="password"),
-        'HOST': env.str("DB_HOST", default="localhost"),
-        'PORT': env("DB_PORT", default=5432),
-    }
-}
+
 
 if DEBUG:
    CACHES = {
        'default': {
            'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+       }
+   }
+   DATABASES = {
+       "default": {
+           "ENGINE": "django.db.backends.sqlite3",
+           "NAME": BASE_DIR / "db.sqlite3",
        }
    }
 else:
@@ -117,6 +114,18 @@ else:
            }
        }
    }
+
+   DATABASES = {
+       'default': {
+           'ENGINE': env.str("DB_ENGINE"),
+           'NAME': env.str("DB_NAME"),
+           'USER': env.str("DB_USER"),
+           'PASSWORD': env.str("DB_PASSWORD"),
+           'HOST': env.str("DB_HOST"),
+           'PORT': env("DB_PORT"),
+       }
+   }
+
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
