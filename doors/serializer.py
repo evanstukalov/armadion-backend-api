@@ -26,9 +26,7 @@ class MainPageCatalogSerializer(serializers.ModelSerializer):
         fields = ['id', 'image', 'title', 'price', 'article']
 
     def get_image(self, obj):
-        return ImageSerializer(obj.images.all(),  context={'request': self.context.get('request')}, many=True).data
-
-
+        return ImageSerializer(obj.images.all(), context={'request': self.context.get('request')}, many=True).data
 
 
 class FeatureSerializer(serializers.ModelSerializer):
@@ -47,8 +45,10 @@ class FeatureCategorySerializer(serializers.ModelSerializer):
     def get_features(self, obj):
         return FeatureSerializer(Feature.objects.filter(feature_category=obj), many=True).data
 
+
 class ImageSerializer(serializers.ModelSerializer):
     url = serializers.SerializerMethodField()
+
     class Meta:
         model = Image
         fields = ['id', 'date_added', 'url', 'mimetype']
@@ -62,6 +62,7 @@ class ImageSerializer(serializers.ModelSerializer):
 
 class ListViewSerializer(serializers.ModelSerializer):
     images = serializers.SerializerMethodField()
+
     class Meta:
         model = Door
         fields = [
@@ -76,7 +77,7 @@ class ListViewSerializer(serializers.ModelSerializer):
         ]
 
     def get_images(self, obj):
-        return ImageSerializer(obj.images.all(),  context={'request': self.context.get('request')}, many=True).data
+        return ImageSerializer(obj.images.all(), context={'request': self.context.get('request')}, many=True).data
 
 
 class DetailViewSerializer(serializers.ModelSerializer):
@@ -109,10 +110,11 @@ class DetailViewSerializer(serializers.ModelSerializer):
         door = Door.objects.get(id=obj.id)
         similar_doors = Door.objects.all().exclude(id=obj.id)
         similar_doors_sorted = sorted(similar_doors, key=lambda p: is_similar(door, p), reverse=True)[:3]
-        return MainPageCatalogSerializer(similar_doors_sorted, context={'request': self.context.get('request')}, many=True).data
+        return MainPageCatalogSerializer(similar_doors_sorted, context={'request': self.context.get('request')},
+                                         many=True).data
 
     def get_images(self, obj):
-        return ImageSerializer(obj.images.all(),  context={'request': self.context.get('request')}, many=True).data
+        return ImageSerializer(obj.images.all(), context={'request': self.context.get('request')}, many=True).data
 
 
 class FilterSerializer(serializers.ModelSerializer):

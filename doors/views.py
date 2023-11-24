@@ -1,11 +1,6 @@
-import logging
-from decimal import Decimal
-from typing import Any
-
-from django.db.models import Max, Min, QuerySet
-from doors.models import Door, Filter, Feature
+from doors.models import Door, Filter
 from doors.serializer import MainPageCatalogSerializer, DetailViewSerializer, ListViewSerializer, FilterSerializer, \
-    DoorFiltersSerializer, DynamicFilterSerializer
+    DoorFiltersSerializer
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework import filters
 from rest_framework import generics
@@ -70,7 +65,6 @@ class DetailViewDoorsAPIView(generics.RetrieveAPIView):
         return context
 
 
-
 class ListFiltersAPIView(generics.ListAPIView):
     """
     API View for the list page that provides filters list.
@@ -101,4 +95,3 @@ class DoorsFiltersAPIView(generics.ListAPIView):
             'doors': door_serializer.data,
             'filters': filter_serializer_data
         }, status=status.HTTP_200_OK)
-

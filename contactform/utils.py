@@ -1,5 +1,4 @@
 import itertools
-import logging
 import os
 
 import environ
