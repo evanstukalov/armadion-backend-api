@@ -11,6 +11,9 @@ FILTER_TYPE_CHOICES = [
 
 
 class Feature(models.Model):
+    """
+    Model of features
+    """
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=200)
     value = models.CharField(max_length=200)
@@ -38,6 +41,9 @@ class Feature(models.Model):
 
 
 class FeatureCategory(models.Model):
+    """
+    Model of feature categories
+    """
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=255)
@@ -59,7 +65,11 @@ class FeatureCategory(models.Model):
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
+
 class Image(models.Model):
+    """
+    Model for images
+    """
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     date_added = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='mediafiles/doors/')
@@ -77,7 +87,11 @@ class Image(models.Model):
         """
         return self.door.title
 
+
 class Door(models.Model):
+    """
+    Model for doors
+    """
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=255)
     article = models.CharField(max_length=255, blank=True, null=True)
@@ -109,6 +123,9 @@ class Door(models.Model):
 
 
 class FilterValue(models.Model):
+    """
+    Model for filter values
+    """
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255)
@@ -132,6 +149,9 @@ class FilterValue(models.Model):
 
 
 class Filter(models.Model):
+    """
+    Model for filters
+    """
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255)
