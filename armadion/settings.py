@@ -86,20 +86,21 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'armadion.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
+DATABASES = {
+    'default': {
+        'ENGINE': env.str("DB_ENGINE"),
+        'NAME': env.str("DB_NAME"),
+        'USER': env.str("DB_USER"),
+        'PASSWORD': env.str("DB_PASSWORD"),
+        'HOST': env.str("DB_HOST"),
+        'PORT': env("DB_PORT"),
+    }
+}
 
 if DEBUG:
     CACHES = {
         'default': {
             'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
-        }
-    }
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
         }
     }
 else:
@@ -113,19 +114,10 @@ else:
         }
     }
 
-    DATABASES = {
-        'default': {
-            'ENGINE': env.str("DB_ENGINE"),
-            'NAME': env.str("DB_NAME"),
-            'USER': env.str("DB_USER"),
-            'PASSWORD': env.str("DB_PASSWORD"),
-            'HOST': env.str("DB_HOST"),
-            'PORT': env("DB_PORT"),
-        }
-    }
+REST_FRAMEWORK = {
+  'EXCEPTION_HANDLER': 'utils.exceptionhandler.custom_exception_handler',
+}
 
-# Password validation
-# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -142,8 +134,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Internationalization
-# https://docs.djangoproject.com/en/4.2/topics/i18n/
 
 LANGUAGE_CODE = 'ru-ru'
 
@@ -155,8 +145,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
@@ -188,8 +176,7 @@ CORS_ALLOWED_ORIGINS = [
 CORS_EXPOSE_HEADERS = ['Content-Type', 'X-CSRFToken']
 CORS_ALLOW_CREDENTIALS = True
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
+
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -230,3 +217,5 @@ LOGGING = {
 # celery broker and result
 CELERY_BROKER_URL = env.str("CELERY_BROKER_URL", default="redis://redis:6379/0")
 CELERY_RESULT_BACKEND = env.str("CELERY_RESULT_BACKEND", default="redis://redis:6379/0")
+
+
