@@ -203,13 +203,13 @@ LOGGING = {
             'level': 'WARNING',
             'class': 'logging.FileHandler',
             'formatter': 'file',
-            'filename': BASE_DIR / 'debug.log'
+            'filename': BASE_DIR / 'logs' / 'debug.log'
         }
     },
     'loggers': {
         '': {
             'level': 'DEBUG',
-            'handlers': ['console', 'file'],
+            'handlers': ['console', 'file']
         }
     }
 }

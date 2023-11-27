@@ -5,6 +5,8 @@ services:
     build:
       context: .
       dockerfile: ./compose/local/django/Dockerfile
+    volumes:
+      - logs:/armadion/logs
     command: /start
     ports:
       - 8000:8000
@@ -48,5 +50,5 @@ services:
     depends_on:
       - web
 volumes:
-  log:
   postgres_data:
+  logs:

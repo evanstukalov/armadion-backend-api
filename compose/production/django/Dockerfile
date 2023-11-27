@@ -1,6 +1,6 @@
 FROM python:3.11.4-slim-buster
 
-RUN mkdir /armadion && mkdir /armadion/staticfiles
+RUN mkdir /armadion && mkdir /armadion/staticfiles && mkdir /armadion/logs
 
 WORKDIR /armadion
 

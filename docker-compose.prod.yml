@@ -10,6 +10,7 @@ services:
     volumes:
       - static_volume:/armadion/staticfiles
       - media_volume:/armadion/mediafiles
+      - logs:/armadion/logs
     expose:
       - 8000
     env_file:
@@ -52,3 +53,4 @@ volumes:
   postgres_data:
   static_volume:
   media_volume:
+  logs:
