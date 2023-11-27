@@ -9,7 +9,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 ## install system dependencies
-RUN apt-get update && apt-get -y install netcat-openbsd
+RUN apt-get update && apt-get -y install netcat-openbsd nano
 
 # install dependencies
 COPY ./requirements.txt .
