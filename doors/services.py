@@ -6,6 +6,9 @@ from decimal import Decimal
 from doors.models import Filter, Feature, Door
 from doors.serializer import DynamicFilterSerializer
 
+import logging
+logger = logging.getLogger(__name__)
+
 
 class DetailViewDoorsService:
     @staticmethod
@@ -26,13 +29,19 @@ class DoorFiltersService:
         """
         Method to filter doors queryset.
         """
+        logger.info(request.query_params)
+
         for key, value in request.query_params.items():
             if key is not None:
                 values = value.split(',')
                 filter_type = filters.get(key)
+
+                logger.info(filter_type)
+
                 if filter_type == 'category_filter':
                     queryset = queryset.filter(
                         feature_categories__features__value_slug__in=values)
+
                 elif filter_type == 'price_filter':
                     values = value.split(',')
                     min_price, max_price = map(Decimal, values)
@@ -48,6 +57,9 @@ class DoorFiltersService:
         queryset = Filter.objects.all()
         doors = DoorFiltersService.get_queryset(request).prefetch_related('feature_categories__features')
         value_slugs = Feature.objects.filter(feature_category__door__in=doors).values_list('value_slug', flat=True)
+
+        logger.info(value_slugs)
+
         queryset = queryset.filter(filter_values__slug__in=value_slugs).distinct()
         return queryset
 
