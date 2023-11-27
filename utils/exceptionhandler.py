@@ -14,19 +14,18 @@ def custom_exception_handler(exc, context):
         exception_class = exc.__class__.__name__
 
         handlers = {
-            'InvalidOperation': _handler_decimal_error
+            'InvalidOperation': _handler_decimal_error,
         }
 
         res = exception_handler(exc, context)
 
         if exception_class in handlers:
-            # calling hanlder based on the custom  
+            logger.warning(exception_class)
             message, status_code = handlers[exception_class](exc, context, res)
+            return Response(data={'errorMessage': message}, status=status_code)
         else:
-            # if there is no hanlder is presnet
-            message = str(exc)
-
-        return Response(data={'errorMessage': message}, status=status_code)
+            logger.error(exception_class)
+            return Response(data={'errorMessage': 'An error occured, it`s on us'}, status=500)
 
     except Exception as e:
         logger.error(str(e))
