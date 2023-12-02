@@ -39,16 +39,6 @@ services:
       - POSTGRES_DB=mydatabase
     ports:
       - "5431:5432"
-
-  locust:
-    image: locustio/locust
-    ports:
-      - "8089:8089"
-    volumes:
-      - ./locust:/locust
-    command: -f /locust/locustfile.py -H http://web:8000
-    depends_on:
-      - web
 volumes:
   postgres_data:
   logs:
