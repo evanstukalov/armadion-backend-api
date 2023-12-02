@@ -114,10 +114,6 @@ else:
         }
     }
 
-REST_FRAMEWORK = {
-  'EXCEPTION_HANDLER': 'utils.exceptionhandler.custom_exception_handler',
-}
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {

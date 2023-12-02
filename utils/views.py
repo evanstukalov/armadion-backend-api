@@ -10,8 +10,6 @@ def error404(request, exception):
     message = 'Not found'
     status_code = 404
 
-    logger.error(message)
-
     return Response(data={'errorMessage': message}, status=status_code)
 
 @api_view(['GET', 'POST'])
@@ -19,7 +17,5 @@ def error404(request, exception):
 def error500(request, exception):
     message = 'An error occured, it`s on us'
     status_code = 500
-
-    logger.error(message)
 
     return Response(data={'errorMessage': message}, status=status_code)

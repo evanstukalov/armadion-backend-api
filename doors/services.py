@@ -33,19 +33,25 @@ class DoorFiltersService:
 
         for key, value in request.query_params.items():
             if key is not None:
-                values = value.split(',')
-                filter_type = filters.get(key)
-
-                logger.info(filter_type)
-
-                if filter_type == 'category_filter':
-                    queryset = queryset.filter(
-                        feature_categories__features__value_slug__in=values)
-
-                elif filter_type == 'price_filter':
+                try:
                     values = value.split(',')
-                    min_price, max_price = map(Decimal, values)
-                    queryset = queryset.filter(price__gte=min_price, price__lte=max_price)
+                    filter_type = filters.get(key)
+
+                    logger.info(filter_type)
+
+                    if filter_type == 'category_filter':
+                        queryset = queryset.filter(
+                            feature_categories__features__value_slug__in=values)
+
+                    elif filter_type == 'price_filter':
+
+                        values = value.split(',')
+                        min_price, max_price = map(Decimal, values)
+                        queryset = queryset.filter(price__gte=min_price, price__lte=max_price)
+
+                except Exception as e:
+                    logger.error(e)
+                    continue
 
         return queryset
 
