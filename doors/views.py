@@ -22,7 +22,7 @@ class MainPageDoorsAPIView(generics.ListAPIView):
     filter_backends = [filters.OrderingFilter]
     ordering_fields = ['click_counter']
 
-    @method_decorator(cache_page(60 * 15))
+    #@method_decorator(cache_page(60 * 15))
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
 
@@ -34,7 +34,7 @@ class ListViewDoorsAPIView(generics.ListAPIView):
     queryset = Door.objects.all()
     serializer_class = ListViewSerializer
 
-    @method_decorator(cache_page(60 * 15))
+    #@method_decorator(cache_page(60 * 15))
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
 
@@ -46,7 +46,7 @@ class DetailViewDoorsAPIView(generics.RetrieveAPIView):
     queryset = Door.objects.all()
     serializer_class = DetailViewSerializer
 
-    @method_decorator(cache_page(60 * 15))
+    #@method_decorator(cache_page(60 * 15))
     def retrieve(self, request, *args, **kwargs):
         """
         Return detail view page for doors and count clicks
@@ -72,7 +72,7 @@ class ListFiltersAPIView(generics.ListAPIView):
     queryset = Filter.objects.all()
     serializer_class = FilterSerializer
 
-    @method_decorator(cache_page(60 * 15))
+    #@method_decorator(cache_page(60 * 15))
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
 
@@ -82,7 +82,7 @@ class DoorsFiltersAPIView(generics.ListAPIView):
     API View for the list page that provides doors and filters list.
     """
 
-    @method_decorator(cache_page(60 * 15))
+    #@method_decorator(cache_page(60 * 15))
     def get(self, request, *args, **kwargs):
         doors, prices = DoorFiltersService.get_doors_and_prices(request)
         filters = DoorFiltersService.get_filter_queryset(request)

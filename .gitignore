@@ -5,7 +5,7 @@ todo
 .coverage
 debug.log
 .mypy_cache
-
+logs
 db.sqlite3
 
 

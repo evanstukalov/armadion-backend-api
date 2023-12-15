@@ -114,7 +114,6 @@ else:
         }
     }
 
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -130,7 +129,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 LANGUAGE_CODE = 'ru-ru'
 
 DATETIME_FORMAT = ("%Y-%m-%d", "%H:%M:%S")
@@ -141,7 +139,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
@@ -151,12 +148,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
 CSRF_TRUSTED_ORIGINS = [
     "http://0.0.0.0:1337",
     "http://localhost:1337",
+    "http://localhost:3000",
     "http://185.244.51.158:80"
 ]
 
 CORS_ALLOWED_ORIGINS = [
     "http://0.0.0.0:1337",
     "http://localhost:1337",
+    "http://localhost:3000",
     "http://185.244.51.158:80",
 ]
 # For debug toolbar
@@ -171,8 +170,6 @@ CORS_ALLOWED_ORIGINS = [
 
 CORS_EXPOSE_HEADERS = ['Content-Type', 'X-CSRFToken']
 CORS_ALLOW_CREDENTIALS = True
-
-
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -213,5 +210,3 @@ LOGGING = {
 # celery broker and result
 CELERY_BROKER_URL = env.str("CELERY_BROKER_URL", default="redis://redis:6379/0")
 CELERY_RESULT_BACKEND = env.str("CELERY_RESULT_BACKEND", default="redis://redis:6379/0")
-
-
