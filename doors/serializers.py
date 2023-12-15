@@ -160,6 +160,7 @@ class DoorFiltersSerializer(serializers.ModelSerializer):
     """
     Serializer for the doors for doors/filter API
     """
+    images = serializers.SerializerMethodField()
     feature_categories = serializers.SerializerMethodField()
 
     class Meta:
@@ -167,9 +168,13 @@ class DoorFiltersSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'title',
+            'images',
             'price',
             'feature_categories',
         ]
+
+    def get_images(self, obj):
+        return ImageSerializer(obj.images.all(), context={'request': self.context.get('request')}, many=True).data
 
     def get_feature_categories(self, obj):
         """

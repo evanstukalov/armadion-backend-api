@@ -4,7 +4,7 @@ from django.db.models import Max, Min, QuerySet
 from decimal import Decimal
 
 from doors.models import Filter, Feature, Door
-from doors.serializer import DynamicFilterSerializer
+from doors.serializers import DynamicFilterSerializer
 
 import logging
 logger = logging.getLogger(__name__)
