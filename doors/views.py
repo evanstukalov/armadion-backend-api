@@ -87,7 +87,7 @@ class DoorsFiltersAPIView(generics.ListAPIView):
         doors, prices = DoorFiltersService.get_doors_and_prices(request)
         filters = DoorFiltersService.get_filter_queryset(request)
 
-        door_serializer = DoorFiltersSerializer(doors, many=True)
+        door_serializer = DoorFiltersSerializer(doors, many=True, context={'request': request})
 
         filter_serializer_data = DoorFiltersService.get_filter_serializer(filters, doors, prices)
 
@@ -95,3 +95,5 @@ class DoorsFiltersAPIView(generics.ListAPIView):
             'doors': door_serializer.data,
             'filters': filter_serializer_data
         }, status=status.HTTP_200_OK)
+
+
