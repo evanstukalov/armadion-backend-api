@@ -41,7 +41,7 @@ class DoorFiltersService:
 
                     if filter_type == 'category_filter':
                         queryset = queryset.filter(
-                            feature_categories__features__value_slug__in=values)
+                            features__value_slug__in=values)
 
                     elif filter_type == 'price_filter':
 
@@ -61,8 +61,8 @@ class DoorFiltersService:
         Get queryset for filters
         """
         queryset = Filter.objects.all()
-        doors = DoorFiltersService.get_queryset(request).prefetch_related('feature_categories__features')
-        value_slugs = Feature.objects.filter(feature_category__door__in=doors).values_list('value_slug', flat=True)
+        doors = DoorFiltersService.get_queryset(request).prefetch_related('features')
+        value_slugs = Feature.objects.filter(door__in=doors).values_list('value_slug', flat=True)
 
         logger.info(value_slugs)
 
@@ -76,7 +76,7 @@ class DoorFiltersService:
         """
 
         filters = {filter.slug: filter.type for filter in Filter.objects.all()}
-        queryset = Door.objects.all().prefetch_related('feature_categories__features')
+        queryset = Door.objects.all().prefetch_related('features')
 
         queryset = DoorFiltersService.filter_doors_queryset(request, queryset, filters)
 

@@ -19,6 +19,7 @@ class Feature(models.Model):
     value = models.CharField(max_length=200)
     name_slug = models.SlugField(max_length=255)
     value_slug = models.SlugField(max_length=255)
+    door = models.ForeignKey("Door", on_delete=models.CASCADE, related_name='features')
     feature_category = models.ForeignKey("FeatureCategory", on_delete=models.CASCADE, related_name="features")
 
     class Meta:
@@ -47,10 +48,9 @@ class FeatureCategory(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=255)
-    door = models.ForeignKey("Door", on_delete=models.CASCADE, related_name='feature_categories')
 
     class Meta:
-        verbose_name_plural = "Характеристики: категории"
+        verbose_name_plural = "Категории характеристик"
 
     def __str__(self):
         """
@@ -58,7 +58,7 @@ class FeatureCategory(models.Model):
         :return: A string representation of the object.
         :rtype: str
         """
-        return f'{self.name} - {self.door.title}'
+        return self.name
 
     def save(self, *args, **kwargs):
         if not self.slug:
