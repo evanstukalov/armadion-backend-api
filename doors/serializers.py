@@ -104,7 +104,7 @@ class DetailViewSerializer(serializers.ModelSerializer):
         ]
 
     def get_feature_categories(self, obj):
-        return FeatureCategorySerializer(FeatureCategory.objects.filter(door=obj), many=True).data
+        return FeatureCategorySerializer([feature.feature_category for feature in obj.features.all()], many=True).data
 
     def get_similar_doors(self, obj):
         door = Door.objects.get(id=obj.id)
