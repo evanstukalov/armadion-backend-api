@@ -25,6 +25,7 @@ class FeatureAdmin(admin.ModelAdmin):
 class FeatureCategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
     prepopulated_fields = {'slug': ('name',)}
+    inlines = [FeatureInline]
 
 
 class FilterValuesInline(admin.TabularInline):
