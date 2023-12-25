@@ -1,6 +1,6 @@
 import logging
 from rest_framework import serializers
-from doors.models import Door, FeatureCategory, Feature, FilterValue, Filter, Image
+from doors.models import Door, FeatureCategory, Feature, Image
 
 from loguru import logger
 
@@ -118,45 +118,6 @@ class DetailViewSerializer(serializers.ModelSerializer):
 
     def get_images(self, obj):
         return ImageSerializer(obj.images.all(), context={'request': self.context.get('request')}, many=True).data
-
-
-class FilterSerializer(serializers.ModelSerializer):
-    """
-    Serializer for the filters for filters/ API
-    """
-    values = serializers.SerializerMethodField()
-
-    class Meta:
-        model = Filter
-        fields = ['name', 'slug', 'values']
-
-    def get_values(self, obj):
-        return FilterValueSerializer(obj.filter_values.all(), many=True).data
-
-
-class FilterValueSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = FilterValue
-        fields = ['name', 'slug']
-
-
-class DynamicFilterSerializer(serializers.ModelSerializer):
-    """
-    Serializer for the dynamic filters for doors/filter API
-    """
-    values = serializers.SerializerMethodField()
-
-    class Meta:
-        model = Filter
-        fields = ['name', 'slug', 'values']
-
-    def get_values(self, obj):
-        doors = self.context.get("doors").prefetch_related('features')
-
-        queryset = FilterValue.objects.filter(filter=obj, slug__in=Feature.objects.filter(
-            door__in=doors).values_list('value_slug', flat=True)).only('name', 'slug')
-
-        return FilterValueSerializer(queryset, many=True).data
 
 
 class DoorFiltersSerializer(serializers.ModelSerializer):

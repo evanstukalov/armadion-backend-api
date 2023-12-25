@@ -3,11 +3,10 @@ from typing import Any
 from django.db.models import Max, Min, QuerySet
 from decimal import Decimal
 
-from doors.models import Filter, Feature, Door
-from doors.serializers import DynamicFilterSerializer
+from loguru import logger
 
-import logging
-logger = logging.getLogger(__name__)
+from doors.models import Feature, Door, FeatureCategory
+from doors.serializers import FeatureCategorySerializer
 
 
 class DetailViewDoorsService:
@@ -25,29 +24,27 @@ class DetailViewDoorsService:
 class DoorFiltersService:
 
     @staticmethod
-    def filter_doors_queryset(request, queryset: QuerySet, filters: dict) -> QuerySet:
+    def filter_doors_queryset(request, queryset: QuerySet) -> QuerySet:
         """
         Method to filter doors queryset.
         """
-        logger.info(request.query_params)
 
         for key, value in request.query_params.items():
             if key is not None:
                 try:
                     values = value.split(',')
-                    filter_type = filters.get(key)
 
-                    logger.info(filter_type)
-
-                    if filter_type == 'category_filter':
-                        queryset = queryset.filter(
-                            features__value_slug__in=values)
-
-                    elif filter_type == 'price_filter':
-
+                    if 'price' in key:
                         values = value.split(',')
                         min_price, max_price = map(Decimal, values)
                         queryset = queryset.filter(price__gte=min_price, price__lte=max_price)
+
+                    elif 'limit' in key or 'offset' in key:
+                        continue
+
+                    else:
+                        queryset = queryset.filter(
+                            features__value_slug__in=values)
 
                 except Exception as e:
                     logger.error(e)
@@ -56,17 +53,22 @@ class DoorFiltersService:
         return queryset
 
     @staticmethod
-    def get_filter_queryset(request) -> QuerySet:
+    def get_features_queryset(request):
         """
         Get queryset for filters
         """
-        queryset = Filter.objects.all()
+        all_features = Feature.objects.all()
         doors = DoorFiltersService.get_queryset(request).prefetch_related('features')
-        value_slugs = Feature.objects.filter(door__in=doors).values_list('value_slug', flat=True)
 
-        logger.info(value_slugs)
+        return all_features.filter(door__in=doors).distinct()
 
-        queryset = queryset.filter(filter_values__slug__in=value_slugs).distinct()
+    @staticmethod
+    def get_feature_category_queryset(request, features) -> QuerySet:
+        """
+        Get queryset for filters
+        """
+        queryset = FeatureCategory.objects.filter(features__in=features).distinct()
+
         return queryset
 
     @staticmethod
@@ -74,30 +76,35 @@ class DoorFiltersService:
         """
         Get queryset for doors.
         """
+        all_doors = Door.objects.all().prefetch_related('features')
 
-        filters = {filter.slug: filter.type for filter in Filter.objects.all()}
-        queryset = Door.objects.all().prefetch_related('features')
-
-        queryset = DoorFiltersService.filter_doors_queryset(request, queryset, filters)
+        queryset = DoorFiltersService.filter_doors_queryset(request, all_doors)
 
         return queryset
 
     @staticmethod
-    def get_doors_and_prices(request) -> tuple[QuerySet, dict]:
+    def get_doors(request) -> QuerySet:
         queryset = DoorFiltersService.get_queryset(request)
-        prices = queryset.aggregate(Max('price'), Min('price'))
         limit = int(request.query_params.get('limit', 10))
         offset = int(request.query_params.get('offset', 0))
         doors = queryset[offset:offset + limit]
 
-        return doors, prices
+        return doors
 
     @staticmethod
-    def get_filter_serializer(filters: QuerySet, doors: QuerySet, prices: dict) -> Any:
-        return DynamicFilterSerializer(filters, many=True, context={'doors': doors}).data + [
+    def get_prices(queryset: QuerySet) -> dict:
+        return queryset.aggregate(Max('price'), Min('price'))
+
+    @staticmethod
+    def get_filter_serializer(request, prices: dict) -> Any:
+        features = DoorFiltersService.get_features_queryset(request)
+        feature_categories = DoorFiltersService.get_feature_category_queryset(request, features)
+
+        return FeatureCategorySerializer(feature_categories, many=True,
+                                         context={'request': request, 'features': features}).data + [
             {
                 'name': 'Цена',
-                'slug': 'price_filter',
+                'slug': 'price',
                 'values': [
                     {
                         'name': 'Минимальная цена',

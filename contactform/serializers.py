@@ -1,11 +1,7 @@
-import logging
 from datetime import datetime
 
 from phonenumber_field.serializerfields import PhoneNumberField
 from rest_framework import serializers
-
-logger = logging.getLogger(__name__)
-
 
 class ContactFormSerializer(serializers.Serializer):
     current_date = serializers.SerializerMethodField()

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Door, Feature, FeatureCategory, Filter, FilterValue, Image
+from .models import Door, Feature, FeatureCategory,Image
 
 
 class ImageInline(admin.TabularInline):
@@ -28,22 +28,6 @@ class FeatureCategoryAdmin(admin.ModelAdmin):
     inlines = [FeatureInline]
 
 
-class FilterValuesInline(admin.TabularInline):
-    model = FilterValue
-    prepopulated_fields = {'slug': ('name',)}
-
-
-class FilterAdmin(admin.ModelAdmin):
-    list_display = ('name',)
-    prepopulated_fields = {'slug': ('name',)}
-    inlines = [FilterValuesInline]
-
-
-class FilterValuesAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug', "filter")
-    prepopulated_fields = {'slug': ('name',)}
-
-
 class ImageAdmin(admin.ModelAdmin):
     list_display = ('door', 'id', 'date_added', 'mimetype')
 
@@ -52,6 +36,3 @@ admin.site.register(Image, ImageAdmin)
 admin.site.register(Door, DoorAdmin)
 admin.site.register(Feature, FeatureAdmin)
 admin.site.register(FeatureCategory, FeatureCategoryAdmin)
-
-admin.site.register(Filter, FilterAdmin)
-admin.site.register(FilterValue, FilterValuesAdmin)

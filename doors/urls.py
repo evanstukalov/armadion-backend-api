@@ -1,6 +1,6 @@
 from django.urls import path
 
-from doors.views import MainPageDoorsAPIView, DetailViewDoorsAPIView, ListViewDoorsAPIView, ListFiltersAPIView, \
+from doors.views import MainPageDoorsAPIView, DetailViewDoorsAPIView, ListViewDoorsAPIView, \
     DoorsFiltersAPIView
 
 urlpatterns = [
@@ -8,8 +8,6 @@ urlpatterns = [
     path('doors/', ListViewDoorsAPIView.as_view(), name='door-list'),
     path('doors/<uuid:pk>/', DetailViewDoorsAPIView.as_view(), name='door-detail'),
     path('doors/filter', DoorsFiltersAPIView.as_view(), name='door-filters'),
-
-    path('filters/', ListFiltersAPIView.as_view(), name='filter-list'),
 
 ]
 

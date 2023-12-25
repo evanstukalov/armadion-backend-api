@@ -1,15 +1,15 @@
-from doors.models import Door, Filter
-from doors.serializers import MainPageCatalogSerializer, DetailViewSerializer, ListViewSerializer, FilterSerializer, \
-    DoorFiltersSerializer
+from doors.models import Door
+from doors.serializers import MainPageCatalogSerializer, DetailViewSerializer, ListViewSerializer, \
+    DoorFiltersSerializer, FeatureCategorySerializer
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework import filters
 from rest_framework import generics
 from rest_framework.response import Response
-from django.views.decorators.cache import cache_page
-from django.utils.decorators import method_decorator
 from rest_framework import status
 
 from doors.services import DoorFiltersService, DetailViewDoorsService
+
+from loguru import logger
 
 
 class MainPageDoorsAPIView(generics.ListAPIView):
@@ -22,7 +22,7 @@ class MainPageDoorsAPIView(generics.ListAPIView):
     filter_backends = [filters.OrderingFilter]
     ordering_fields = ['click_counter']
 
-    #@method_decorator(cache_page(60 * 15))
+    # @method_decorator(cache_page(60 * 15))
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
 
@@ -34,7 +34,7 @@ class ListViewDoorsAPIView(generics.ListAPIView):
     queryset = Door.objects.all()
     serializer_class = ListViewSerializer
 
-    #@method_decorator(cache_page(60 * 15))
+    # @method_decorator(cache_page(60 * 15))
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
 
@@ -46,7 +46,7 @@ class DetailViewDoorsAPIView(generics.RetrieveAPIView):
     queryset = Door.objects.all()
     serializer_class = DetailViewSerializer
 
-    #@method_decorator(cache_page(60 * 15))
+    # @method_decorator(cache_page(60 * 15))
     def retrieve(self, request, *args, **kwargs):
         """
         Return detail view page for doors and count clicks
@@ -65,35 +65,21 @@ class DetailViewDoorsAPIView(generics.RetrieveAPIView):
         return context
 
 
-class ListFiltersAPIView(generics.ListAPIView):
-    """
-    API View for the list page that provides filters list.
-    """
-    queryset = Filter.objects.all()
-    serializer_class = FilterSerializer
-
-    #@method_decorator(cache_page(60 * 15))
-    def get(self, request, *args, **kwargs):
-        return super().get(request, *args, **kwargs)
-
-
 class DoorsFiltersAPIView(generics.ListAPIView):
     """
     API View for the list page that provides doors and filters list.
     """
 
-    #@method_decorator(cache_page(60 * 15))
+    # @method_decorator(cache_page(60 * 15))
     def get(self, request, *args, **kwargs):
-        doors, prices = DoorFiltersService.get_doors_and_prices(request)
-        filters = DoorFiltersService.get_filter_queryset(request)
+        doors = DoorFiltersService.get_doors(request)
+        prices = DoorFiltersService.get_prices(doors)
 
-        door_serializer = DoorFiltersSerializer(doors, many=True, context={'request': request})
+        door_serializer = DoorFiltersSerializer(doors, many=True, context={'request': request}).data
 
-        filter_serializer_data = DoorFiltersService.get_filter_serializer(filters, doors, prices)
+        filter_serializer = DoorFiltersService.get_filter_serializer(request, prices)
 
         return Response({
-            'doors': door_serializer.data,
-            'filters': filter_serializer_data
+            'doors': door_serializer,
+            'filters': filter_serializer
         }, status=status.HTTP_200_OK)
-
-

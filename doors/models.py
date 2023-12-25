@@ -3,13 +3,6 @@ import uuid
 from django.db import models
 from django.utils.text import slugify
 
-FILTER_TYPE_CHOICES = [
-    ('price_filter', 'Фильтр по цене'),
-    ('category_filter', 'Фильтр по категории'),
-    ('limitoffset_filter', 'Пагинация'),
-]
-
-
 class Feature(models.Model):
     """
     Model of features
@@ -119,56 +112,4 @@ class Door(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
-        super().save(*args, **kwargs)
-
-
-class FilterValue(models.Model):
-    """
-    Model for filter values
-    """
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255)
-    filter = models.ForeignKey("Filter", on_delete=models.CASCADE, related_name='filter_values')
-
-    class Meta:
-        verbose_name_plural = "Фильтры: значения"
-
-    def __str__(self):
-        """
-        Returns a string representation of the object.
-        :return: A string representation of the object.
-        :rtype: str
-        """
-        return self.name
-
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.value = slugify(self.name)
-        super().save(*args, **kwargs)
-
-
-class Filter(models.Model):
-    """
-    Model for filters
-    """
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255)
-    type = models.CharField(max_length=255, choices=FILTER_TYPE_CHOICES, default=FILTER_TYPE_CHOICES[1][0])
-
-    class Meta:
-        verbose_name_plural = "Фильтры"
-
-    def __str__(self):
-        """
-        Returns a string representation of the object.
-        :return: A string representation of the object.
-        :rtype: str
-        """
-        return self.name
-
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.name)
         super().save(*args, **kwargs)
