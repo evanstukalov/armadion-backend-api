@@ -2,7 +2,7 @@ import logging
 from rest_framework import serializers
 from doors.models import Door, FeatureCategory, Feature, FilterValue, Filter, Image
 
-logger = logging.getLogger(__name__)
+from loguru import logger
 
 
 def is_similar(product1: Door, product2: Door) -> bool:
@@ -43,7 +43,10 @@ class FeatureCategorySerializer(serializers.ModelSerializer):
         fields = ['name', 'slug', 'features']
 
     def get_features(self, obj):
-        return FeatureSerializer(Feature.objects.filter(feature_category=obj), many=True).data
+        logger.info(self.context['features'].all())
+        logger.info(obj)
+        return FeatureSerializer(self.context['features'].filter(feature_category=obj), many=True).data
+
 
 
 class ImageSerializer(serializers.ModelSerializer):
@@ -180,4 +183,5 @@ class DoorFiltersSerializer(serializers.ModelSerializer):
         """
         Returns the feature categories associated with the given object.
         """
-        return FeatureCategorySerializer([feature.feature_category for feature in obj.features.all()], many=True).data
+        return FeatureCategorySerializer([feature.feature_category for feature in obj.features.all()],
+                                         context={'features': obj.features}, many=True).data
