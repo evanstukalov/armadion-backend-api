@@ -1,12 +1,13 @@
+import logging
 from typing import Any
 
 from django.db.models import Max, Min, QuerySet
 from decimal import Decimal
 
-from loguru import logger
-
 from doors.models import Feature, Door, FeatureCategory
 from doors.serializers import FeatureCategorySerializer
+
+logger = logging.getLogger(__name__)
 
 
 class DetailViewDoorsService:

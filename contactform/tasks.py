@@ -1,8 +1,10 @@
+import logging
+
 from celery import shared_task
 
 from contactform.utils import GoogleSheet
 
-from loguru import logger
+logger = logging.getLogger(__name__)
 
 
 @shared_task()
