@@ -9,8 +9,6 @@ from rest_framework import status
 
 from doors.services import DoorFiltersService, DetailViewDoorsService
 
-from loguru import logger
-
 
 class MainPageDoorsAPIView(generics.ListAPIView):
     """

@@ -158,15 +158,6 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://185.244.51.158:80",
 ]
-# For debug toolbar
-# INTERNAL_IPS = [
-#    '127.0.0.1',
-#    '0.0.0.0',
-# ]
-## For debug toolbar
-# DEBUG_TOOLBAR_CONFIG = {
-#    "SHOW_TOOLBAR_CALLBACK": lambda request: True,
-# }
 
 CORS_EXPOSE_HEADERS = ['Content-Type', 'X-CSRFToken']
 CORS_ALLOW_CREDENTIALS = True

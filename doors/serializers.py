@@ -1,8 +1,5 @@
-import logging
 from rest_framework import serializers
 from doors.models import Door, FeatureCategory, Feature, Image
-
-from loguru import logger
 
 
 def is_similar(product1: Door, product2: Door) -> bool:
@@ -44,7 +41,6 @@ class FeatureCategorySerializer(serializers.ModelSerializer):
 
     def get_features(self, obj):
         return FeatureSerializer(self.context['features'].filter(feature_category=obj), many=True).data
-
 
 
 class ImageSerializer(serializers.ModelSerializer):
@@ -105,7 +101,8 @@ class DetailViewSerializer(serializers.ModelSerializer):
         ]
 
     def get_feature_categories(self, obj):
-        return FeatureCategorySerializer([feature.feature_category for feature in obj.features.all()], many=True).data
+        return FeatureCategorySerializer([feature.feature_category for feature in obj.features.all()],
+                                         context={'features': obj.features}, many=True).data
 
     def get_similar_doors(self, obj):
         door = Door.objects.get(id=obj.id)

@@ -2,6 +2,7 @@ from rest_framework.decorators import renderer_classes, api_view
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 
+
 @api_view(['GET'])
 @renderer_classes((JSONRenderer,))
 def error404(request, exception):
@@ -9,6 +10,7 @@ def error404(request, exception):
     status_code = 404
 
     return Response(data={'errorMessage': message}, status=status_code)
+
 
 @api_view(['GET', 'POST'])
 @renderer_classes((JSONRenderer,))
