@@ -3,6 +3,7 @@ from datetime import datetime
 from phonenumber_field.serializerfields import PhoneNumberField
 from rest_framework import serializers
 
+
 class ContactFormSerializer(serializers.Serializer):
     current_date = serializers.SerializerMethodField()
     current_time = serializers.SerializerMethodField()

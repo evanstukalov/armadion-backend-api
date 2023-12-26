@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Door, Feature, FeatureCategory,Image
+from .models import Door, Feature, FeatureCategory, Image
 
 
 class ImageInline(admin.TabularInline):

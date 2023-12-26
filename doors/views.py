@@ -1,6 +1,6 @@
 from doors.models import Door
 from doors.serializers import MainPageCatalogSerializer, DetailViewSerializer, ListViewSerializer, \
-    DoorFiltersSerializer, FeatureCategorySerializer
+    DoorFiltersSerializer
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework import filters
 from rest_framework import generics

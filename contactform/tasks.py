@@ -4,6 +4,7 @@ from contactform.utils import GoogleSheet
 
 from loguru import logger
 
+
 @shared_task()
 def task_execute(data: dict) -> None:
     """

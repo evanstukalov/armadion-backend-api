@@ -3,6 +3,7 @@ import uuid
 from django.db import models
 from django.utils.text import slugify
 
+
 class Feature(models.Model):
     """
     Model of features
