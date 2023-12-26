@@ -43,8 +43,6 @@ class FeatureCategorySerializer(serializers.ModelSerializer):
         fields = ['name', 'slug', 'features']
 
     def get_features(self, obj):
-        logger.info(self.context['features'].all())
-        logger.info(obj)
         return FeatureSerializer(self.context['features'].filter(feature_category=obj), many=True).data
 
 
