@@ -47,7 +47,7 @@ services:
       - 443:443
     restart: always
     volumes:
-      - ./nginx/conf/:/etc/nginx/conf.d/:ro
+      - ./compose/production/nginx:/etc/nginx/conf.d/:ro
       - static_volume:/armadion/staticfiles
       - media_volume:/armadion/mediafiles
 volumes:
