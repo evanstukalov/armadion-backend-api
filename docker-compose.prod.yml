@@ -41,7 +41,7 @@ services:
     ports:
       - "5431:5432"
   nginx:
-    build: nginx:latest
+    image: nginx:latest
     depends_on:
       - web
     ports:
