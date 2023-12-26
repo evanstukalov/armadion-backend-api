@@ -51,6 +51,10 @@ services:
       - ./certbot/www:/var/www/certbot/:ro
       - static_volume:/armadion/staticfiles
       - media_volume:/armadion/mediafiles
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - ./certbot/www/:/var/www/certbot/:r
 volumes:
   postgres_data:
   static_volume:
