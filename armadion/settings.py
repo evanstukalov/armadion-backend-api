@@ -150,7 +150,7 @@ CSRF_TRUSTED_ORIGINS = [
     "http://localhost:1337",
     "http://localhost:3000",
     "http://185.244.51.158:80",
-    "https://cozy-llama-84cde3.netlify.app/",
+    "https://cozy-llama-84cde3.netlify.app",
 ]
 
 CORS_ALLOWED_ORIGINS = [
