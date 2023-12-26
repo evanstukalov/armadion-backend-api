@@ -41,7 +41,7 @@ services:
     ports:
       - "5431:5432"
   nginx:
-    build: ./compose/production/nginx/
+    build: nginx:latest
     depends_on:
       - web
     ports:
