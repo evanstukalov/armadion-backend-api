@@ -48,6 +48,7 @@ services:
     restart: always
     volumes:
       - ./compose/production/nginx:/etc/nginx/conf.d/:ro
+      - ./certbot/www:/var/www/certbot/:ro
       - static_volume:/armadion/staticfiles
       - media_volume:/armadion/mediafiles
 volumes:
